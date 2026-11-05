@@ -1,0 +1,1147 @@
+<!--
+SIGNALINVEST — MAIS 5 TELAS HTML + 1 CSS
+
+Telas incluídas:
+10. Configurações da Conta
+11. Central de Notificações
+12. Fontes de Dados
+13. Administração de Regras e Parâmetros
+14. Histórico de Alterações do Score
+
+Como usar:
+1. Crie uma pasta chamada "signalinvest-admin-suporte".
+2. Dentro dela, crie estes 6 arquivos:
+   - style-support.css
+   - 10-configuracoes-conta.html
+   - 11-notificacoes.html
+   - 12-fontes-dados.html
+   - 13-regras-parametros.html
+   - 14-historico-score.html
+3. Copie cada trecho abaixo para o arquivo correspondente.
+4. Abra cada HTML no navegador.
+-->
+
+<!-- =========================
+ARQUIVO: style-support.css
+========================= -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap');
+
+:root {
+  --purple-primary: #6D28D9;
+  --purple-dark: #4C1D95;
+  --purple-deep: #3B0764;
+  --purple-soft: #F3E8FF;
+  --purple-border: #DDD6FE;
+  --green-growth: #22C55E;
+  --green-dark: #15803D;
+  --green-soft: #F0FDF4;
+  --green-border: #BBF7D0;
+  --yellow-alert: #F59E0B;
+  --yellow-text: #B45309;
+  --yellow-soft: #FFFBEB;
+  --yellow-border: #FDE68A;
+  --red-risk: #DC2626;
+  --red-text: #B91C1C;
+  --red-soft: #FEF2F2;
+  --red-border: #FECACA;
+  --blue-soft: #EFF6FF;
+  --blue-text: #1D4ED8;
+  --background: #F8FAFC;
+  --card: #FFFFFF;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-soft: #94A3B8;
+  --border: #E2E8F0;
+  --input-border: #CBD5E1;
+  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-medium: 0 18px 48px rgba(15, 23, 42, 0.12);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Sora", sans-serif;
+  background: var(--background);
+  color: var(--text-primary);
+}
+
+body { overflow-x: hidden; }
+button, input, select { font-family: inherit; }
+
+.screen {
+  width: 1440px;
+  min-height: 1024px;
+  background: var(--background);
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Branding */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+}
+.logo-mark::after {
+  content: "↗";
+  position: absolute;
+  right: -7px;
+  top: -8px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--green-growth);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  border: 3px solid #FFFFFF;
+}
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+/* Typography */
+h1, h2, h3, p { margin-top: 0; }
+.page-title {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+}
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.section-helper {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+.small-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+/* Layout */
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 1024px;
+}
+.sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid var(--border);
+  padding: 34px 24px;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-nav {
+  display: grid;
+  gap: 8px;
+  margin-top: 72px;
+}
+.sidebar-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  font-weight: 700;
+  margin: 22px 14px 8px;
+}
+.sidebar-item {
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.sidebar-item.active {
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+}
+.sidebar-icon {
+  width: 22px;
+  text-align: center;
+  color: inherit;
+}
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--background);
+}
+.sidebar-footer-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.sidebar-footer-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.main-area {
+  padding: 48px 80px 64px 60px;
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+/* Base components */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+.button {
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  padding: 0 18px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.button-primary { height: 48px; background: var(--purple-primary); color: #FFFFFF; }
+.button-secondary { height: 44px; background: #FFFFFF; color: var(--purple-primary); border-color: var(--border); }
+.button-green { height: 44px; background: var(--green-growth); color: #FFFFFF; }
+.button-red { height: 44px; background: var(--red-risk); color: #FFFFFF; }
+.button-full { width: 100%; }
+.button-group { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.form-grid { display: grid; gap: 18px; }
+.form-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.form-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.form-field { display: flex; flex-direction: column; gap: 8px; }
+.form-label { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.input, .select {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--input-border);
+  background: #FFFFFF;
+  padding: 0 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+}
+.input::placeholder { color: var(--text-soft); }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  min-height: 30px;
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.chip-neutral { background: var(--background); color: var(--text-secondary); border-color: var(--border); }
+.chip-purple { background: var(--purple-soft); color: var(--purple-primary); border-color: var(--purple-border); }
+.chip-green { background: var(--green-soft); color: var(--green-dark); border-color: var(--green-border); }
+.chip-yellow { background: var(--yellow-soft); color: var(--yellow-text); border-color: var(--yellow-border); }
+.chip-red { background: var(--red-soft); color: var(--red-text); border-color: var(--red-border); }
+.chip-blue { background: var(--blue-soft); color: var(--blue-text); border-color: #BFDBFE; }
+
+/* Shared blocks */
+.panel-card { padding: 24px; }
+.divider { height: 1px; background: var(--border); margin: 22px 0; }
+.meta-text { color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+.value-strong { font-weight: 700; color: var(--text-primary); }
+.positive { color: var(--green-dark); }
+.warning { color: var(--yellow-text); }
+.danger { color: var(--red-text); }
+
+/* Configurações */
+.settings-layout {
+  display: grid;
+  grid-template-columns: 680px 340px;
+  gap: 28px;
+  align-items: start;
+}
+.settings-main { display: grid; gap: 24px; }
+.settings-card { padding: 24px; }
+.settings-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.avatar-large {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+.toggle-list { display: grid; gap: 14px; }
+.toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--background);
+}
+.toggle-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.toggle-helper { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.toggle {
+  width: 46px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--border);
+  padding: 3px;
+  display: flex;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+.toggle.active { background: var(--purple-primary); justify-content: flex-end; }
+.toggle-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+.security-status-card {
+  padding: 24px;
+  background: linear-gradient(145deg, var(--purple-soft), #FFFFFF);
+}
+.status-list { display: grid; gap: 14px; margin-top: 18px; }
+.status-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.status-item:last-child { border-bottom: 0; padding-bottom: 0; }
+
+/* Notificações */
+.notification-layout {
+  display: grid;
+  grid-template-columns: 700px 316px;
+  gap: 28px;
+  align-items: start;
+}
+.notification-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.tab {
+  height: 38px;
+  border-radius: 999px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+.tab.active {
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  border-color: var(--purple-border);
+}
+.notification-list { display: grid; gap: 14px; }
+.notification-item {
+  padding: 18px;
+  border-radius: 18px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
+.notification-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.notification-icon.green { background: var(--green-soft); color: var(--green-dark); }
+.notification-icon.yellow { background: var(--yellow-soft); color: var(--yellow-text); }
+.notification-icon.purple { background: var(--purple-soft); color: var(--purple-primary); }
+.notification-icon.red { background: var(--red-soft); color: var(--red-text); }
+.notification-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.notification-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+.notification-time { font-size: 11px; color: var(--text-soft); }
+.notification-side-card { padding: 24px; }
+.notification-summary-grid { display: grid; gap: 14px; margin-top: 18px; }
+.notification-summary-item {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--background);
+}
+.notification-summary-value { font-size: 24px; font-weight: 700; letter-spacing: -0.04em; }
+.notification-summary-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+/* Fontes de dados */
+.sources-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 180px 180px;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 28px;
+}
+.source-card {
+  padding: 24px;
+  min-height: 268px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.source-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+.source-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.source-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.source-description { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.source-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.source-info-box {
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--background);
+  border: 1px solid var(--border);
+}
+.source-info-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.source-info-value { font-size: 13px; font-weight: 700; }
+.source-actions { display: flex; gap: 10px; margin-top: auto; }
+.source-actions .button { flex: 1; }
+.sources-health-card { padding: 24px; }
+.health-list { display: grid; gap: 16px; margin-top: 20px; }
+.health-row { display: grid; grid-template-columns: 180px 1fr 70px; gap: 14px; align-items: center; font-size: 13px; }
+.progress-track { height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 999px; background: var(--purple-primary); }
+
+/* Regras e parâmetros */
+.rules-layout {
+  display: grid;
+  grid-template-columns: 660px 356px;
+  gap: 28px;
+  align-items: start;
+}
+.rules-list { display: grid; gap: 18px; }
+.rule-card { padding: 22px; }
+.rule-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.rule-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.rule-description { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.weight-badge {
+  min-width: 64px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+.rule-slider { display: grid; grid-template-columns: 1fr 56px; gap: 16px; align-items: center; }
+.rule-side-card { padding: 24px; }
+.formula-box {
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--purple-soft);
+  border: 1px solid var(--purple-border);
+  color: var(--purple-dark);
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 18px 0;
+}
+.audit-list { display: grid; gap: 12px; margin-top: 18px; }
+.audit-item { padding: 14px; background: var(--background); border: 1px solid var(--border); border-radius: 14px; }
+.audit-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.audit-meta { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+/* Histórico de score */
+.history-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 180px 180px;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.score-history-layout {
+  display: grid;
+  grid-template-columns: 700px 316px;
+  gap: 28px;
+  align-items: start;
+}
+.timeline-card { padding: 24px; }
+.timeline { display: grid; gap: 0; margin-top: 22px; }
+.timeline-item {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 16px;
+  position: relative;
+  padding-bottom: 24px;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 42px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item:last-child::before { display: none; }
+.timeline-dot {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  z-index: 1;
+}
+.timeline-dot.green { background: var(--green-soft); color: var(--green-dark); border: 1px solid var(--green-border); }
+.timeline-dot.yellow { background: var(--yellow-soft); color: var(--yellow-text); border: 1px solid var(--yellow-border); }
+.timeline-dot.purple { background: var(--purple-soft); color: var(--purple-primary); border: 1px solid var(--purple-border); }
+.timeline-content {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #FFFFFF;
+}
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.timeline-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.timeline-date { font-size: 12px; color: var(--text-secondary); }
+.score-change {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+.old-score { color: var(--text-soft); }
+.new-score { color: var(--green-growth); }
+.timeline-text { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; }
+.history-side-card { padding: 24px; }
+.score-summary-box {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, var(--green-soft), #FFFFFF);
+  border: 1px solid var(--green-border);
+  margin-bottom: 18px;
+}
+.score-summary-value { font-size: 44px; font-weight: 700; letter-spacing: -0.06em; color: var(--green-growth); }
+.score-summary-label { font-size: 13px; color: var(--green-dark); }
+.reason-list { display: grid; gap: 12px; margin-top: 16px; }
+.reason-item { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.reason-item:last-child { border-bottom: 0; }
+
+@media print {
+  body { background: #FFFFFF; }
+  .screen { margin: 0; width: 1440px; min-height: 1024px; page-break-after: always; }
+}
+</style>
+
+<!-- =========================
+ARQUIVO: 10-configuracoes-conta.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Configurações da Conta</title>
+  <link rel="stylesheet" href="style-support.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◉</span>Perfil do investidor</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">♡</span>Favoritas</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">⚙</span>Configurações</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-title">Conta protegida</div>
+        <div class="sidebar-footer-text">Última atualização de segurança há 12 dias.</div>
+      </div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Configurações da conta</h1>
+          <p class="page-subtitle">Gerencie dados pessoais, senha e preferências de notificação.</p>
+        </div>
+        <button class="button button-primary">Salvar alterações</button>
+      </header>
+
+      <section class="settings-layout">
+        <div class="settings-main">
+          <article class="card settings-card">
+            <div class="settings-avatar-row">
+              <div class="avatar-large">EA</div>
+              <div>
+                <h2 class="section-title">Dados pessoais</h2>
+                <p class="section-helper">Essas informações identificam seu perfil dentro da Signalinvest.</p>
+                <button class="button button-secondary">Alterar foto</button>
+              </div>
+            </div>
+
+            <div class="form-grid two">
+              <div class="form-field"><label class="form-label">Nome completo</label><input class="input" value="José Eduardo Silva de Azevedo" /></div>
+              <div class="form-field"><label class="form-label">E-mail</label><input class="input" value="eduardo@email.com" /></div>
+              <div class="form-field"><label class="form-label">Telefone</label><input class="input" value="(81) 99999-9999" /></div>
+              <div class="form-field"><label class="form-label">Tipo de perfil</label><select class="select"><option>Investidor moderado</option><option>Conservador</option><option>Arrojado</option></select></div>
+            </div>
+          </article>
+
+          <article class="card settings-card">
+            <h2 class="section-title">Alterar senha</h2>
+            <p class="section-helper">Use uma senha forte para proteger suas análises e relatórios.</p>
+            <div class="form-grid three">
+              <div class="form-field"><label class="form-label">Senha atual</label><input class="input" type="password" placeholder="••••••••" /></div>
+              <div class="form-field"><label class="form-label">Nova senha</label><input class="input" type="password" placeholder="••••••••" /></div>
+              <div class="form-field"><label class="form-label">Confirmar nova senha</label><input class="input" type="password" placeholder="••••••••" /></div>
+            </div>
+          </article>
+
+          <article class="card settings-card">
+            <h2 class="section-title">Preferências de notificação</h2>
+            <p class="section-helper">Escolha quais alertas deseja receber sobre startups monitoradas.</p>
+            <div class="toggle-list">
+              <div class="toggle-item"><div><div class="toggle-title">Mudança de score</div><div class="toggle-helper">Receber alertas quando uma startup favorita subir ou cair no ranking.</div></div><div class="toggle active"><span class="toggle-dot"></span></div></div>
+              <div class="toggle-item"><div><div class="toggle-title">Nova rodada aberta</div><div class="toggle-helper">Avisar quando uma oportunidade compatível abrir captação.</div></div><div class="toggle active"><span class="toggle-dot"></span></div></div>
+              <div class="toggle-item"><div><div class="toggle-title">Alertas de risco</div><div class="toggle-helper">Notificar quando uma fonte indicar risco regulatório ou dados críticos.</div></div><div class="toggle active"><span class="toggle-dot"></span></div></div>
+              <div class="toggle-item"><div><div class="toggle-title">Resumo semanal</div><div class="toggle-helper">Enviar um resumo por e-mail com principais oportunidades.</div></div><div class="toggle"><span class="toggle-dot"></span></div></div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="card security-status-card">
+          <h2 class="section-title">Status da conta</h2>
+          <p class="section-helper">Resumo de segurança e atividade recente.</p>
+          <div class="status-list">
+            <div class="status-item"><span>Verificação de e-mail</span><span class="chip chip-green">Confirmado</span></div>
+            <div class="status-item"><span>Perfil de investidor</span><span class="chip chip-purple">Moderado</span></div>
+            <div class="status-item"><span>Senha</span><span class="chip chip-green">Forte</span></div>
+            <div class="status-item"><span>Último login</span><span class="value-strong">Hoje, 09:42</span></div>
+            <div class="status-item"><span>Relatórios salvos</span><span class="value-strong">9</span></div>
+          </div>
+          <div class="divider"></div>
+          <button class="button button-red button-full">Desativar conta</button>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 11-notificacoes.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Central de Notificações</title>
+  <link rel="stylesheet" href="style-support.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◉</span>Perfil do investidor</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">♡</span>Favoritas</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">🔔</span>Notificações</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">12 notificações</div><div class="sidebar-footer-text">4 alertas ainda não foram lidos.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Central de notificações</h1>
+          <p class="page-subtitle">Acompanhe alertas acionáveis sobre startups, fontes de dados e relatórios.</p>
+        </div>
+        <button class="button button-secondary">Marcar tudo como lido</button>
+      </header>
+
+      <div class="notification-layout">
+        <section>
+          <div class="notification-tabs">
+            <span class="tab active">Todas</span>
+            <span class="tab">Score</span>
+            <span class="tab">Rodadas</span>
+            <span class="tab">Risco</span>
+            <span class="tab">Relatórios</span>
+          </div>
+
+          <div class="notification-list">
+            <article class="notification-item">
+              <div class="notification-icon green">↗</div>
+              <div><div class="notification-title">PayFlow subiu para score 91</div><div class="notification-text">A startup apresentou aumento de usuários ativos e novo sinal positivo de tração no mercado.</div><div class="chip-row"><span class="chip chip-green">Score positivo</span><span class="chip chip-neutral">PayFlow</span></div></div>
+              <div class="notification-time">Hoje · 09:42</div>
+            </article>
+
+            <article class="notification-item">
+              <div class="notification-icon yellow">!</div>
+              <div><div class="notification-title">Risco regulatório atualizado</div><div class="notification-text">Uma nova notícia adicionou atenção regulatória média à análise da PayFlow.</div><div class="chip-row"><span class="chip chip-yellow">Risco moderado</span><span class="chip chip-neutral">Fintech</span></div></div>
+              <div class="notification-time">Hoje · 08:15</div>
+            </article>
+
+            <article class="notification-item">
+              <div class="notification-icon purple">▤</div>
+              <div><div class="notification-title">Relatório da AgroVision AI atualizado</div><div class="notification-text">Novas fontes foram sincronizadas e o PDF resumido está pronto para download.</div><div class="chip-row"><span class="chip chip-purple">Relatório</span><span class="chip chip-neutral">AgroVision AI</span></div></div>
+              <div class="notification-time">Ontem · 18:22</div>
+            </article>
+
+            <article class="notification-item">
+              <div class="notification-icon green">✓</div>
+              <div><div class="notification-title">Nova rodada aberta</div><div class="notification-text">CloudOps Hub abriu uma rodada compatível com sua faixa de investimento.</div><div class="chip-row"><span class="chip chip-green">Rodada aberta</span><span class="chip chip-neutral">SaaS</span></div></div>
+              <div class="notification-time">Ontem · 11:04</div>
+            </article>
+
+            <article class="notification-item">
+              <div class="notification-icon red">×</div>
+              <div><div class="notification-title">Falha em fonte de dados</div><div class="notification-text">A sincronização com uma fonte externa ficou indisponível por 12 minutos.</div><div class="chip-row"><span class="chip chip-red">Falha API</span><span class="chip chip-neutral">Fonte externa</span></div></div>
+              <div class="notification-time">20/04 · 16:40</div>
+            </article>
+          </div>
+        </section>
+
+        <aside class="card notification-side-card">
+          <h2 class="section-title">Resumo</h2>
+          <p class="section-helper">Principais tipos de alertas recebidos.</p>
+          <div class="notification-summary-grid">
+            <div class="notification-summary-item"><div class="notification-summary-value" style="color: var(--green-growth)">5</div><div class="notification-summary-label">Sinais positivos</div></div>
+            <div class="notification-summary-item"><div class="notification-summary-value" style="color: var(--yellow-alert)">3</div><div class="notification-summary-label">Alertas de risco</div></div>
+            <div class="notification-summary-item"><div class="notification-summary-value" style="color: var(--purple-primary)">2</div><div class="notification-summary-label">Relatórios prontos</div></div>
+            <div class="notification-summary-item"><div class="notification-summary-value" style="color: var(--red-risk)">1</div><div class="notification-summary-label">Falha de integração</div></div>
+          </div>
+          <div class="divider"></div>
+          <button class="button button-primary button-full">Ver startups afetadas</button>
+        </aside>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 12-fontes-dados.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Fontes de Dados</title>
+  <link rel="stylesheet" href="style-support.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <div class="sidebar-section-label">Admin</div>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">◇</span>Fontes de dados</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span>Regras e parâmetros</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◷</span>Histórico do score</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">6 fontes ativas</div><div class="sidebar-footer-text">Última sincronização geral há 8 minutos.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Fontes de dados</h1>
+          <p class="page-subtitle">Monitore APIs, notícias, bases públicas e integrações usadas no cálculo do score.</p>
+        </div>
+        <button class="button button-primary">Adicionar fonte</button>
+      </header>
+
+      <section class="sources-toolbar">
+        <input class="input" placeholder="Buscar fonte de dados" />
+        <select class="select"><option>Todos os tipos</option><option>API</option><option>Notícias</option></select>
+        <select class="select"><option>Status</option><option>Ativa</option><option>Falha</option></select>
+      </section>
+
+      <section class="sources-grid">
+        <article class="card source-card">
+          <div class="source-header"><div><div class="source-icon">API</div><div class="source-title">Startup Data API</div><div class="source-description">Dados de rodadas, estágio, localização e setores.</div></div><span class="chip chip-green">Ativa</span></div>
+          <div class="source-info-grid"><div class="source-info-box"><div class="source-info-label">Última sync</div><div class="source-info-value">8 min</div></div><div class="source-info-box"><div class="source-info-label">Sucesso</div><div class="source-info-value positive">98%</div></div></div>
+          <div class="source-actions"><button class="button button-primary">Detalhes</button><button class="button button-secondary">Sincronizar</button></div>
+        </article>
+
+        <article class="card source-card">
+          <div class="source-header"><div><div class="source-icon">NW</div><div class="source-title">News Monitor</div><div class="source-description">Coleta notícias recentes e menções relevantes.</div></div><span class="chip chip-green">Ativa</span></div>
+          <div class="source-info-grid"><div class="source-info-box"><div class="source-info-label">Última sync</div><div class="source-info-value">12 min</div></div><div class="source-info-box"><div class="source-info-label">Sucesso</div><div class="source-info-value positive">94%</div></div></div>
+          <div class="source-actions"><button class="button button-primary">Detalhes</button><button class="button button-secondary">Sincronizar</button></div>
+        </article>
+
+        <article class="card source-card">
+          <div class="source-header"><div><div class="source-icon">PUB</div><div class="source-title">Bases públicas</div><div class="source-description">Dados abertos, registros e informações regulatórias.</div></div><span class="chip chip-yellow">Instável</span></div>
+          <div class="source-info-grid"><div class="source-info-box"><div class="source-info-label">Última sync</div><div class="source-info-value">1h</div></div><div class="source-info-box"><div class="source-info-label">Sucesso</div><div class="source-info-value warning">78%</div></div></div>
+          <div class="source-actions"><button class="button button-primary">Detalhes</button><button class="button button-secondary">Sincronizar</button></div>
+        </article>
+
+        <article class="card source-card">
+          <div class="source-header"><div><div class="source-icon">SOC</div><div class="source-title">Sinais sociais</div><div class="source-description">Crescimento de equipe, menções e movimentações públicas.</div></div><span class="chip chip-green">Ativa</span></div>
+          <div class="source-info-grid"><div class="source-info-box"><div class="source-info-label">Última sync</div><div class="source-info-value">25 min</div></div><div class="source-info-box"><div class="source-info-label">Sucesso</div><div class="source-info-value positive">91%</div></div></div>
+          <div class="source-actions"><button class="button button-primary">Detalhes</button><button class="button button-secondary">Sincronizar</button></div>
+        </article>
+
+        <article class="card source-card">
+          <div class="source-header"><div><div class="source-icon">FIN</div><div class="source-title">Indicadores financeiros</div><div class="source-description">Informações de receita estimada, aporte e liquidez.</div></div><span class="chip chip-green">Ativa</span></div>
+          <div class="source-info-grid"><div class="source-info-box"><div class="source-info-label">Última sync</div><div class="source-info-value">40 min</div></div><div class="source-info-box"><div class="source-info-label">Sucesso</div><div class="source-info-value positive">89%</div></div></div>
+          <div class="source-actions"><button class="button button-primary">Detalhes</button><button class="button button-secondary">Sincronizar</button></div>
+        </article>
+
+        <article class="card source-card">
+          <div class="source-header"><div><div class="source-icon">ERR</div><div class="source-title">Regulatory Watch</div><div class="source-description">Sinais de risco regulatório e alertas jurídicos.</div></div><span class="chip chip-red">Falha</span></div>
+          <div class="source-info-grid"><div class="source-info-box"><div class="source-info-label">Última sync</div><div class="source-info-value">2h</div></div><div class="source-info-box"><div class="source-info-label">Sucesso</div><div class="source-info-value danger">42%</div></div></div>
+          <div class="source-actions"><button class="button button-primary">Detalhes</button><button class="button button-secondary">Tentar novamente</button></div>
+        </article>
+      </section>
+
+      <article class="card sources-health-card">
+        <h2 class="section-title">Saúde das integrações</h2>
+        <p class="section-helper">Visão rápida da qualidade das fontes usadas pela Signalinvest.</p>
+        <div class="health-list">
+          <div class="health-row"><span>Startup Data API</span><div class="progress-track"><div class="progress-fill" style="width: 98%; background: var(--green-growth)"></div></div><strong>98%</strong></div>
+          <div class="health-row"><span>News Monitor</span><div class="progress-track"><div class="progress-fill" style="width: 94%; background: var(--green-growth)"></div></div><strong>94%</strong></div>
+          <div class="health-row"><span>Bases públicas</span><div class="progress-track"><div class="progress-fill" style="width: 78%; background: var(--yellow-alert)"></div></div><strong>78%</strong></div>
+          <div class="health-row"><span>Regulatory Watch</span><div class="progress-track"><div class="progress-fill" style="width: 42%; background: var(--red-risk)"></div></div><strong>42%</strong></div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 13-regras-parametros.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Regras e Parâmetros</title>
+  <link rel="stylesheet" href="style-support.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <div class="sidebar-section-label">Admin</div>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◇</span>Fontes de dados</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">⚙</span>Regras e parâmetros</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◷</span>Histórico do score</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">Modo admin</div><div class="sidebar-footer-text">Alterações afetam o cálculo de score das startups.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Regras e parâmetros</h1>
+          <p class="page-subtitle">Configure os pesos usados no cálculo do score de investimento.</p>
+        </div>
+        <div class="button-group"><button class="button button-secondary">Restaurar padrão</button><button class="button button-primary">Salvar regras</button></div>
+      </header>
+
+      <section class="rules-layout">
+        <div class="rules-list">
+          <article class="card rule-card">
+            <div class="rule-header"><div><div class="rule-title">Crescimento mensal</div><div class="rule-description">Peso aplicado a crescimento de usuários, receita estimada e tração recente.</div></div><div class="weight-badge">30%</div></div>
+            <div class="rule-slider"><div class="progress-track"><div class="progress-fill" style="width: 30%; background: var(--green-growth)"></div></div><strong>30%</strong></div>
+          </article>
+
+          <article class="card rule-card">
+            <div class="rule-header"><div><div class="rule-title">Risco estimado</div><div class="rule-description">Considera risco regulatório, dependência de mercado e sinais críticos.</div></div><div class="weight-badge">20%</div></div>
+            <div class="rule-slider"><div class="progress-track"><div class="progress-fill" style="width: 20%; background: var(--yellow-alert)"></div></div><strong>20%</strong></div>
+          </article>
+
+          <article class="card rule-card">
+            <div class="rule-header"><div><div class="rule-title">Rodada e estágio</div><div class="rule-description">Prioriza startups com rodada aberta e estágio compatível com o perfil.</div></div><div class="weight-badge">18%</div></div>
+            <div class="rule-slider"><div class="progress-track"><div class="progress-fill" style="width: 18%; background: var(--purple-primary)"></div></div><strong>18%</strong></div>
+          </article>
+
+          <article class="card rule-card">
+            <div class="rule-header"><div><div class="rule-title">Notícias e menções</div><div class="rule-description">Avalia volume e qualidade de notícias recentes sobre a startup.</div></div><div class="weight-badge">14%</div></div>
+            <div class="rule-slider"><div class="progress-track"><div class="progress-fill" style="width: 14%; background: var(--purple-primary)"></div></div><strong>14%</strong></div>
+          </article>
+
+          <article class="card rule-card">
+            <div class="rule-header"><div><div class="rule-title">Aderência ao perfil</div><div class="rule-description">Compara setor, risco e faixa de aporte com as preferências do investidor.</div></div><div class="weight-badge">18%</div></div>
+            <div class="rule-slider"><div class="progress-track"><div class="progress-fill" style="width: 18%; background: var(--green-growth)"></div></div><strong>18%</strong></div>
+          </article>
+        </div>
+
+        <aside>
+          <article class="card rule-side-card">
+            <h2 class="section-title">Fórmula atual</h2>
+            <p class="section-helper">Resumo visual da composição do score.</p>
+            <div class="formula-box">
+              Score = crescimento 30% + risco 20% + rodada 18% + notícias 14% + aderência 18%.
+            </div>
+            <div class="chip-row">
+              <span class="chip chip-green">Total 100%</span>
+              <span class="chip chip-purple">Versão 2.4</span>
+            </div>
+          </article>
+
+          <article class="card rule-side-card" style="margin-top: 28px;">
+            <h2 class="section-title">Últimas alterações</h2>
+            <p class="section-helper">Histórico recente de ajustes feitos pelo administrador.</p>
+            <div class="audit-list">
+              <div class="audit-item"><div class="audit-title">Crescimento alterado</div><div class="audit-meta">25% → 30% · Hoje, 09:12</div></div>
+              <div class="audit-item"><div class="audit-title">Risco reduzido</div><div class="audit-meta">25% → 20% · Ontem, 17:30</div></div>
+              <div class="audit-item"><div class="audit-title">Notícias ajustado</div><div class="audit-meta">12% → 14% · 19/04/2026</div></div>
+            </div>
+          </article>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 14-historico-score.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Histórico de Score</title>
+  <link rel="stylesheet" href="style-support.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <div class="sidebar-section-label">Admin</div>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◇</span>Fontes de dados</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span>Regras e parâmetros</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">◷</span>Histórico do score</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">Rastreabilidade</div><div class="sidebar-footer-text">Entenda por que cada score subiu ou caiu.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Histórico de alterações do score</h1>
+          <p class="page-subtitle">Veja a evolução do score e os motivos que impactaram cada mudança.</p>
+        </div>
+        <button class="button button-primary">Exportar histórico</button>
+      </header>
+
+      <section class="history-toolbar">
+        <input class="input" value="PayFlow" />
+        <select class="select"><option>Últimos 30 dias</option><option>Últimos 90 dias</option></select>
+        <select class="select"><option>Todos os motivos</option><option>Crescimento</option><option>Risco</option></select>
+      </section>
+
+      <section class="score-history-layout">
+        <article class="card timeline-card">
+          <h2 class="section-title">Linha do tempo — PayFlow</h2>
+          <p class="section-helper">Alterações recentes geradas a partir de fontes conectadas e regras de score.</p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot green">↗</div>
+              <div class="timeline-content">
+                <div class="timeline-header"><div><div class="timeline-title">Score aumentou após crescimento de usuários ativos</div><div class="timeline-date">22/04/2026 · 09:42</div></div><span class="chip chip-green">Crescimento</span></div>
+                <div class="score-change"><span class="old-score">86</span><span>→</span><span class="new-score">91</span></div>
+                <p class="timeline-text">A fonte Startup Data API registrou aumento de 18% em usuários ativos e crescimento positivo na receita estimada.</p>
+                <div class="chip-row"><span class="chip chip-neutral">Startup Data API</span><span class="chip chip-green">Sinal positivo</span></div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot yellow">!</div>
+              <div class="timeline-content">
+                <div class="timeline-header"><div><div class="timeline-title">Risco regulatório médio adicionado</div><div class="timeline-date">21/04/2026 · 18:15</div></div><span class="chip chip-yellow">Risco</span></div>
+                <div class="score-change"><span class="old-score">88</span><span>→</span><span class="new-score" style="color: var(--yellow-alert)">86</span></div>
+                <p class="timeline-text">O monitor de notícias detectou menções sobre revisão regulatória no setor de pagamentos digitais.</p>
+                <div class="chip-row"><span class="chip chip-neutral">News Monitor</span><span class="chip chip-yellow">Atenção</span></div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot purple">▤</div>
+              <div class="timeline-content">
+                <div class="timeline-header"><div><div class="timeline-title">Rodada aberta confirmada</div><div class="timeline-date">18/04/2026 · 11:10</div></div><span class="chip chip-purple">Rodada</span></div>
+                <div class="score-change"><span class="old-score">82</span><span>→</span><span class="new-score">88</span></div>
+                <p class="timeline-text">A startup passou a ter rodada aberta com valor mínimo compatível com o perfil moderado.</p>
+                <div class="chip-row"><span class="chip chip-neutral">Startup Data API</span><span class="chip chip-green">Rodada aberta</span></div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot green">✓</div>
+              <div class="timeline-content">
+                <div class="timeline-header"><div><div class="timeline-title">Aderência ao perfil melhorou</div><div class="timeline-date">14/04/2026 · 15:27</div></div><span class="chip chip-green">Perfil</span></div>
+                <div class="score-change"><span class="old-score">79</span><span>→</span><span class="new-score">82</span></div>
+                <p class="timeline-text">O perfil do investidor foi atualizado para moderado, aumentando a compatibilidade com a oportunidade.</p>
+                <div class="chip-row"><span class="chip chip-purple">Perfil moderado</span><span class="chip chip-neutral">Fintech</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside>
+          <article class="card history-side-card">
+            <h2 class="section-title">Score atual</h2>
+            <div class="score-summary-box">
+              <div class="score-summary-value">91</div>
+              <div class="score-summary-label">Alto potencial de investimento</div>
+            </div>
+            <div class="chip-row"><span class="chip chip-green">Alto crescimento</span><span class="chip chip-yellow">Risco moderado</span></div>
+          </article>
+
+          <article class="card history-side-card" style="margin-top: 28px;">
+            <h2 class="section-title">Fatores de impacto</h2>
+            <p class="section-helper">Critérios que mais influenciaram a pontuação atual.</p>
+            <div class="reason-list">
+              <div class="reason-item"><span>Crescimento mensal</span><strong class="positive">+30%</strong></div>
+              <div class="reason-item"><span>Aderência ao perfil</span><strong class="positive">+18%</strong></div>
+              <div class="reason-item"><span>Rodada aberta</span><strong class="positive">+18%</strong></div>
+              <div class="reason-item"><span>Risco regulatório</span><strong class="warning">-8%</strong></div>
+              <div class="reason-item"><span>Notícias recentes</span><strong class="positive">+6%</strong></div>
+            </div>
+          </article>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

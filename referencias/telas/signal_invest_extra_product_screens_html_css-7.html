@@ -1,0 +1,1112 @@
+<!--
+SIGNALINVEST — 5 TELAS EXTRAS PARA PROJETO FINAL HTML + 1 CSS
+
+Telas incluídas:
+25. Onboarding Guiado do Investidor
+26. Registrar Intenção de Investimento
+27. Lista de Interesse em Rodada
+28. Detalhes de Notícia / Sinal
+29. Auditoria do Relatório
+
+Como usar:
+1. Crie uma pasta chamada "signalinvest-projeto-final-extras".
+2. Dentro dela, crie estes 6 arquivos:
+   - style-project-final.css
+   - 25-onboarding.html
+   - 26-intencao-investimento.html
+   - 27-lista-interesse-rodada.html
+   - 28-detalhes-sinal.html
+   - 29-auditoria-relatorio.html
+3. Copie cada trecho abaixo para o arquivo correspondente.
+4. Abra cada HTML no navegador.
+-->
+
+<!-- =========================
+ARQUIVO: style-project-final.css
+========================= -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap');
+
+:root {
+  --purple-primary: #6D28D9;
+  --purple-dark: #4C1D95;
+  --purple-deep: #3B0764;
+  --purple-soft: #F3E8FF;
+  --purple-border: #DDD6FE;
+  --green-growth: #22C55E;
+  --green-dark: #15803D;
+  --green-soft: #F0FDF4;
+  --green-border: #BBF7D0;
+  --yellow-alert: #F59E0B;
+  --yellow-text: #B45309;
+  --yellow-soft: #FFFBEB;
+  --yellow-border: #FDE68A;
+  --red-risk: #DC2626;
+  --red-text: #B91C1C;
+  --red-soft: #FEF2F2;
+  --red-border: #FECACA;
+  --blue-soft: #EFF6FF;
+  --blue-text: #1D4ED8;
+  --background: #F8FAFC;
+  --card: #FFFFFF;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-soft: #94A3B8;
+  --border: #E2E8F0;
+  --input-border: #CBD5E1;
+  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-medium: 0 18px 48px rgba(15, 23, 42, 0.12);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Sora", sans-serif;
+  background: var(--background);
+  color: var(--text-primary);
+}
+
+body { overflow-x: hidden; }
+button, input, select, textarea { font-family: inherit; }
+
+.screen {
+  width: 1440px;
+  min-height: 1024px;
+  background: var(--background);
+  margin: 0 auto;
+  position: relative;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+}
+.logo-mark::after {
+  content: "↗";
+  position: absolute;
+  right: -7px;
+  top: -8px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--green-growth);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  border: 3px solid #FFFFFF;
+}
+.logo-mark.light::after { border-color: var(--purple-dark); }
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.logo.light .logo-text { color: #FFFFFF; }
+
+h1, h2, h3, p { margin-top: 0; }
+.page-title {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+}
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.section-helper {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+.small-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 1024px;
+}
+.sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid var(--border);
+  padding: 34px 24px;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-nav {
+  display: grid;
+  gap: 8px;
+  margin-top: 72px;
+}
+.sidebar-item {
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.sidebar-item.active {
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+}
+.sidebar-icon {
+  width: 22px;
+  text-align: center;
+  color: inherit;
+}
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--background);
+}
+.sidebar-footer-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.sidebar-footer-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.main-area {
+  padding: 48px 80px 64px 60px;
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+.button {
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  padding: 0 18px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.button-primary { height: 48px; background: var(--purple-primary); color: #FFFFFF; }
+.button-secondary { height: 44px; background: #FFFFFF; color: var(--purple-primary); border-color: var(--border); }
+.button-green { height: 44px; background: var(--green-growth); color: #FFFFFF; }
+.button-red { height: 44px; background: var(--red-risk); color: #FFFFFF; }
+.button-full { width: 100%; }
+.button-group { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.form-grid { display: grid; gap: 18px; }
+.form-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.form-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.form-field { display: flex; flex-direction: column; gap: 8px; }
+.form-label { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.input, .select, .textarea {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--input-border);
+  background: #FFFFFF;
+  padding: 0 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+}
+.input, .select { height: 48px; }
+.textarea { min-height: 96px; padding-top: 14px; resize: none; }
+.input::placeholder, .textarea::placeholder { color: var(--text-soft); }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  min-height: 30px;
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.chip-neutral { background: var(--background); color: var(--text-secondary); border-color: var(--border); }
+.chip-purple { background: var(--purple-soft); color: var(--purple-primary); border-color: var(--purple-border); }
+.chip-green { background: var(--green-soft); color: var(--green-dark); border-color: var(--green-border); }
+.chip-yellow { background: var(--yellow-soft); color: var(--yellow-text); border-color: var(--yellow-border); }
+.chip-red { background: var(--red-soft); color: var(--red-text); border-color: var(--red-border); }
+.chip-blue { background: var(--blue-soft); color: var(--blue-text); border-color: #BFDBFE; }
+
+.divider { height: 1px; background: var(--border); margin: 22px 0; }
+.meta-text { color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+.positive { color: var(--green-dark); }
+.warning { color: var(--yellow-text); }
+.danger { color: var(--red-text); }
+.progress-track { height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 999px; background: var(--purple-primary); }
+
+/* 25 Onboarding */
+.onboarding-screen {
+  min-height: 1024px;
+  display: grid;
+  grid-template-columns: 560px 1fr;
+}
+.onboarding-side {
+  padding: 56px 64px;
+  color: #FFFFFF;
+  background: radial-gradient(circle at 25% 20%, rgba(34,197,94,0.22), transparent 24%),
+              radial-gradient(circle at 90% 70%, rgba(109,40,217,0.35), transparent 30%),
+              linear-gradient(145deg, var(--purple-dark), var(--purple-deep));
+  position: relative;
+  overflow: hidden;
+}
+.onboarding-side::after {
+  content: "";
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
+  position: absolute;
+  right: -120px;
+  bottom: -120px;
+}
+.onboarding-copy {
+  margin-top: 150px;
+  max-width: 430px;
+}
+.onboarding-copy h1 {
+  font-size: 44px;
+  line-height: 1.18;
+  letter-spacing: -0.06em;
+  margin-bottom: 20px;
+}
+.onboarding-copy p {
+  color: #DDD6FE;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.onboarding-steps-mini {
+  display: grid;
+  gap: 14px;
+  margin-top: 56px;
+}
+.step-mini {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #DDD6FE;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.step-mini-number {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: rgba(34,197,94,0.18);
+  color: var(--green-growth);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.onboarding-main {
+  padding: 56px 72px;
+}
+.onboarding-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 56px;
+}
+.step-indicator {
+  display: flex;
+  gap: 8px;
+}
+.step-dot {
+  width: 36px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+}
+.step-dot.active { background: var(--purple-primary); }
+.onboarding-card {
+  padding: 36px;
+  border-radius: 28px;
+  box-shadow: var(--shadow-medium);
+}
+.onboarding-card h2 {
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
+  margin-bottom: 12px;
+}
+.onboarding-card > p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+.onboarding-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
+}
+.onboarding-feature {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--background);
+}
+.feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.feature-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.feature-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+/* 26 Intent */
+.intent-layout {
+  display: grid;
+  grid-template-columns: 670px 346px;
+  gap: 28px;
+  align-items: start;
+}
+.intent-main { display: grid; gap: 24px; }
+.intent-card { padding: 24px; }
+.startup-summary-card {
+  padding: 24px;
+  background: linear-gradient(145deg, var(--purple-soft), #FFFFFF);
+}
+.startup-summary-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+.startup-logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: var(--purple-primary);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.startup-summary-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+}
+.startup-summary-text { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+.intent-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.intent-metric-box {
+  padding: 14px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+}
+.intent-metric-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
+.intent-metric-value { font-size: 20px; font-weight: 700; letter-spacing: -0.04em; }
+.intent-side-card { padding: 24px; }
+.intent-summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.intent-summary-line:last-child { border-bottom: 0; }
+.risk-box {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--yellow-soft);
+  border: 1px solid var(--yellow-border);
+  color: var(--yellow-text);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* 27 Waitlist */
+.waitlist-layout {
+  display: grid;
+  grid-template-columns: 660px 356px;
+  gap: 28px;
+  align-items: start;
+}
+.waitlist-card { padding: 24px; }
+.waitlist-hero-card {
+  padding: 28px;
+  margin-bottom: 28px;
+  background: linear-gradient(145deg, var(--purple-soft), #FFFFFF);
+}
+.waitlist-timeline { display: grid; gap: 0; margin-top: 24px; }
+.waitlist-step {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 16px;
+  padding-bottom: 24px;
+  position: relative;
+}
+.waitlist-step::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 42px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.waitlist-step:last-child::before { display: none; }
+.waitlist-step-dot {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  border: 1px solid var(--purple-border);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  z-index: 1;
+}
+.waitlist-step-content {
+  padding: 16px;
+  border-radius: 18px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+}
+.waitlist-step-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.waitlist-step-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.preference-list { display: grid; gap: 14px; }
+.preference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--background);
+}
+.preference-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.preference-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.toggle {
+  width: 46px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--border);
+  padding: 3px;
+  display: flex;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+.toggle.active { background: var(--purple-primary); justify-content: flex-end; }
+.toggle-dot { width: 20px; height: 20px; border-radius: 50%; background: #FFFFFF; }
+
+/* 28 Signal */
+.signal-layout {
+  display: grid;
+  grid-template-columns: 690px 326px;
+  gap: 28px;
+  align-items: start;
+}
+.signal-main-card { padding: 32px; }
+.signal-source-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+.source-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.signal-title {
+  font-size: 30px;
+  line-height: 1.25;
+  letter-spacing: -0.05em;
+  margin-bottom: 16px;
+}
+.signal-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.9;
+  margin-bottom: 22px;
+}
+.impact-box {
+  padding: 20px;
+  border-radius: 18px;
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  margin: 24px 0;
+}
+.impact-title { color: var(--green-dark); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.impact-text { color: var(--green-dark); font-size: 13px; line-height: 1.7; }
+.signal-side-card { padding: 24px; }
+.score-impact-list { display: grid; gap: 12px; margin-top: 18px; }
+.score-impact-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.score-impact-item:last-child { border-bottom: 0; }
+.related-startup-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  margin-top: 18px;
+}
+.related-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.related-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+/* 29 Audit report */
+.audit-layout {
+  display: grid;
+  grid-template-columns: 660px 356px;
+  gap: 28px;
+  align-items: start;
+}
+.audit-card { padding: 24px; }
+.audit-report-header {
+  padding: 28px;
+  margin-bottom: 28px;
+  background: linear-gradient(145deg, var(--purple-soft), #FFFFFF);
+}
+.audit-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 22px;
+}
+.audit-summary-box {
+  padding: 14px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+}
+.audit-summary-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
+.audit-summary-value { font-size: 18px; font-weight: 700; letter-spacing: -0.03em; }
+.audit-section-list { display: grid; gap: 14px; margin-top: 18px; }
+.audit-section-item {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 14px;
+  align-items: start;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--background);
+}
+.audit-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.audit-icon.green { background: var(--green-soft); color: var(--green-dark); }
+.audit-icon.purple { background: var(--purple-soft); color: var(--purple-primary); }
+.audit-icon.yellow { background: var(--yellow-soft); color: var(--yellow-text); }
+.audit-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.audit-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.audit-source-table { width: 100%; border-collapse: collapse; }
+.audit-source-table th,
+.audit-source-table td { border-bottom: 1px solid var(--border); padding: 14px 12px; font-size: 13px; text-align: left; }
+.audit-source-table th { color: var(--text-secondary); background: var(--background); }
+.audit-side-card { padding: 24px; }
+.audit-weight-list { display: grid; gap: 14px; margin-top: 18px; }
+.audit-weight-row { display: grid; grid-template-columns: 120px 1fr 46px; gap: 10px; align-items: center; font-size: 12px; }
+
+@media print {
+  body { background: #FFFFFF; }
+  .screen { margin: 0; width: 1440px; min-height: 1024px; page-break-after: always; }
+}
+</style>
+
+<!-- =========================
+ARQUIVO: 25-onboarding.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Onboarding</title>
+  <link rel="stylesheet" href="style-project-final.css" />
+</head>
+<body>
+  <main class="screen onboarding-screen">
+    <section class="onboarding-side">
+      <div class="logo light"><div class="logo-mark light">S</div><div class="logo-text">Signalinvest</div></div>
+      <div class="onboarding-copy">
+        <h1>Comece a investir com sinais mais claros</h1>
+        <p>A Signalinvest organiza dados de startups para ajudar você a descobrir, avaliar e acompanhar oportunidades com mais confiança.</p>
+      </div>
+      <div class="onboarding-steps-mini">
+        <div class="step-mini"><div class="step-mini-number">1</div>Defina seu perfil de investidor.</div>
+        <div class="step-mini"><div class="step-mini-number">2</div>Receba recomendações com base em dados.</div>
+        <div class="step-mini"><div class="step-mini-number">3</div>Analise score, riscos e relatórios.</div>
+      </div>
+    </section>
+
+    <section class="onboarding-main">
+      <header class="onboarding-header">
+        <span class="chip chip-purple">Etapa 1 de 3</span>
+        <div class="step-indicator"><span class="step-dot active"></span><span class="step-dot"></span><span class="step-dot"></span></div>
+      </header>
+
+      <article class="card onboarding-card">
+        <h2>Como a Signalinvest ajuda você?</h2>
+        <p>A plataforma conecta fontes de dados, notícias, indicadores e preferências do investidor para gerar análises mais úteis sobre startups.</p>
+
+        <div class="onboarding-feature-grid">
+          <div class="onboarding-feature"><div class="feature-icon">⌕</div><div class="feature-title">Descoberta de startups</div><div class="feature-text">Busque empresas por setor, estágio, rodada, localização e score mínimo.</div></div>
+          <div class="onboarding-feature"><div class="feature-icon">↗</div><div class="feature-title">Score de investimento</div><div class="feature-text">Avalie potencial com base em crescimento, risco, notícias e aderência ao perfil.</div></div>
+          <div class="onboarding-feature"><div class="feature-icon">▤</div><div class="feature-title">Relatórios inteligentes</div><div class="feature-text">Gere PDFs consolidados com pontos fortes, atenção e recomendação final.</div></div>
+          <div class="onboarding-feature"><div class="feature-icon">🔔</div><div class="feature-title">Alertas acionáveis</div><div class="feature-text">Receba avisos sobre score, novas rodadas, riscos e atualizações relevantes.</div></div>
+        </div>
+
+        <div class="button-group">
+          <button class="button button-primary">Começar configuração</button>
+          <button class="button button-secondary">Pular para dashboard</button>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 26-intencao-investimento.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Intenção de Investimento</title>
+  <link rel="stylesheet" href="style-project-final.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">♡</span>Favoritas</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">🔔</span>Notificações</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span>Configurações</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">Ação de investimento</div><div class="sidebar-footer-text">Registre interesse sem efetivar transação financeira.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div><h1 class="page-title">Registrar intenção de investimento</h1><p class="page-subtitle">Informe o valor pretendido e confirme seu interesse na oportunidade selecionada.</p></div>
+        <button class="button button-secondary">Voltar para análise</button>
+      </header>
+
+      <section class="intent-layout">
+        <div class="intent-main">
+          <article class="card startup-summary-card">
+            <div class="startup-summary-head">
+              <div>
+                <div class="startup-logo">P</div>
+                <div class="startup-summary-title">PayFlow</div>
+                <p class="startup-summary-text">Pagamentos inteligentes para pequenas empresas, com rodada aberta e forte crescimento mensal.</p>
+                <div class="chip-row"><span class="chip chip-neutral">Fintech</span><span class="chip chip-purple">Seed</span><span class="chip chip-green">Rodada aberta</span></div>
+              </div>
+              <span class="chip chip-green">Score 91/100</span>
+            </div>
+            <div class="intent-metrics">
+              <div class="intent-metric-box"><div class="intent-metric-label">Valor mínimo</div><div class="intent-metric-value">R$ 2.000</div></div>
+              <div class="intent-metric-box"><div class="intent-metric-label">Crescimento</div><div class="intent-metric-value" style="color: var(--green-growth)">+18%</div></div>
+              <div class="intent-metric-box"><div class="intent-metric-label">Risco</div><div class="intent-metric-value" style="color: var(--yellow-alert)">Moderado</div></div>
+            </div>
+          </article>
+
+          <article class="card intent-card">
+            <h2 class="section-title">Dados da intenção</h2>
+            <p class="section-helper">Essa etapa registra seu interesse para acompanhamento interno e próximos contatos.</p>
+            <div class="form-grid two">
+              <div class="form-field"><label class="form-label">Valor pretendido</label><input class="input" value="R$ 5.000,00" /></div>
+              <div class="form-field"><label class="form-label">Prazo de decisão</label><select class="select"><option>Até 7 dias</option><option>Até 15 dias</option><option>Até 30 dias</option></select></div>
+              <div class="form-field"><label class="form-label">Objetivo</label><select class="select"><option>Diversificação em startups</option><option>Alto crescimento</option><option>Aprendizado de mercado</option></select></div>
+              <div class="form-field"><label class="form-label">Canal preferido</label><select class="select"><option>E-mail</option><option>WhatsApp</option><option>Notificação no app</option></select></div>
+            </div>
+            <div class="divider"></div>
+            <div class="form-field"><label class="form-label">Observações</label><textarea class="textarea" placeholder="Ex.: Quero receber novidades sobre a rodada e documentos adicionais."></textarea></div>
+          </article>
+        </div>
+
+        <aside class="card intent-side-card">
+          <h2 class="section-title">Resumo da intenção</h2>
+          <p class="section-helper">Revise os dados antes de registrar.</p>
+          <div class="intent-summary-line"><span>Startup</span><strong>PayFlow</strong></div>
+          <div class="intent-summary-line"><span>Score</span><strong class="positive">91/100</strong></div>
+          <div class="intent-summary-line"><span>Valor pretendido</span><strong>R$ 5.000</strong></div>
+          <div class="intent-summary-line"><span>Perfil</span><strong>Moderado</strong></div>
+          <div class="intent-summary-line"><span>Status</span><span class="chip chip-green">Rodada aberta</span></div>
+          <div class="divider"></div>
+          <div class="risk-box">Este registro não realiza investimento financeiro. Ele apenas salva sua intenção para acompanhamento e próximos passos.</div>
+          <div class="divider"></div>
+          <button class="button button-primary button-full">Registrar interesse</button>
+          <div style="height: 10px"></div>
+          <button class="button button-secondary button-full">Salvar como rascunho</button>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 27-lista-interesse-rodada.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Lista de Interesse em Rodada</title>
+  <link rel="stylesheet" href="style-project-final.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">♡</span>Favoritas</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">🔔</span>Notificações</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span>Configurações</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">Lista de interesse</div><div class="sidebar-footer-text">Receba aviso quando a rodada for aberta.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div><h1 class="page-title">Entrar na lista de interesse</h1><p class="page-subtitle">Acompanhe startups que ainda não possuem rodada aberta, mas têm bom potencial.</p></div>
+        <button class="button button-secondary">Voltar para startup</button>
+      </header>
+
+      <section class="waitlist-layout">
+        <div>
+          <article class="card waitlist-hero-card">
+            <div class="startup-summary-head">
+              <div>
+                <div class="startup-logo">N</div>
+                <div class="startup-summary-title">NeuroLearn</div>
+                <p class="startup-summary-text">IA para personalização de estudos. Startup em monitoramento, com previsão de rodada futura.</p>
+                <div class="chip-row"><span class="chip chip-neutral">IA</span><span class="chip chip-purple">Pré-seed</span><span class="chip chip-yellow">Monitoramento</span></div>
+              </div>
+              <span class="chip chip-yellow">Rodada futura</span>
+            </div>
+            <div class="intent-metrics">
+              <div class="intent-metric-box"><div class="intent-metric-label">Score atual</div><div class="intent-metric-value">72</div></div>
+              <div class="intent-metric-box"><div class="intent-metric-label">Previsão</div><div class="intent-metric-value">60 dias</div></div>
+              <div class="intent-metric-box"><div class="intent-metric-label">Interesse</div><div class="intent-metric-value" style="color: var(--purple-primary)">148</div></div>
+            </div>
+          </article>
+
+          <article class="card waitlist-card">
+            <h2 class="section-title">Linha de acompanhamento</h2>
+            <p class="section-helper">Entenda como a Signalinvest acompanha oportunidades futuras.</p>
+            <div class="waitlist-timeline">
+              <div class="waitlist-step"><div class="waitlist-step-dot">1</div><div class="waitlist-step-content"><div class="waitlist-step-title">Você entra na lista</div><div class="waitlist-step-text">O sistema salva seu interesse e acompanha sinais da startup.</div></div></div>
+              <div class="waitlist-step"><div class="waitlist-step-dot">2</div><div class="waitlist-step-content"><div class="waitlist-step-title">Fontes são monitoradas</div><div class="waitlist-step-text">Notícias, APIs e alterações de score são verificadas automaticamente.</div></div></div>
+              <div class="waitlist-step"><div class="waitlist-step-dot">3</div><div class="waitlist-step-content"><div class="waitlist-step-title">Você recebe alerta</div><div class="waitlist-step-text">Quando a rodada abrir, a plataforma envia uma notificação acionável.</div></div></div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="card waitlist-card">
+          <h2 class="section-title">Preferências de aviso</h2>
+          <p class="section-helper">Escolha quais alertas deseja receber sobre essa startup.</p>
+          <div class="preference-list">
+            <div class="preference-item"><div><div class="preference-title">Quando abrir rodada</div><div class="preference-text">Avisar assim que houver oportunidade disponível.</div></div><div class="toggle active"><span class="toggle-dot"></span></div></div>
+            <div class="preference-item"><div><div class="preference-title">Quando score mudar</div><div class="preference-text">Receber alerta em alterações relevantes do score.</div></div><div class="toggle active"><span class="toggle-dot"></span></div></div>
+            <div class="preference-item"><div><div class="preference-title">Novas notícias</div><div class="preference-text">Avisar sobre sinais e notícias importantes.</div></div><div class="toggle active"><span class="toggle-dot"></span></div></div>
+            <div class="preference-item"><div><div class="preference-title">Resumo semanal</div><div class="preference-text">Incluir esta startup no resumo semanal.</div></div><div class="toggle"><span class="toggle-dot"></span></div></div>
+          </div>
+          <div class="divider"></div>
+          <button class="button button-primary button-full">Entrar na lista</button>
+          <div style="height: 10px"></div>
+          <button class="button button-secondary button-full">Adicionar aos favoritos</button>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 28-detalhes-sinal.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Detalhes de Sinal</title>
+  <link rel="stylesheet" href="style-project-final.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">🔔</span>Notificações</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">♡</span>Favoritas</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span>Configurações</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">Sinal analisado</div><div class="sidebar-footer-text">Impacto calculado a partir de notícias e dados recentes.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div><h1 class="page-title">Detalhes de notícia / sinal</h1><p class="page-subtitle">Entenda como uma notícia ou fonte impactou o score da startup.</p></div>
+        <button class="button button-secondary">Voltar às notificações</button>
+      </header>
+
+      <section class="signal-layout">
+        <article class="card signal-main-card">
+          <div class="signal-source-row">
+            <div class="source-avatar">NW</div>
+            <div><div class="small-label">Fonte</div><strong>News Monitor · Mercado Fintech</strong></div>
+            <span class="chip chip-green">Sinal positivo</span>
+          </div>
+
+          <h2 class="signal-title">PayFlow registra crescimento acelerado em clientes ativos no último trimestre</h2>
+          <p class="signal-text">A notícia indica avanço relevante na base de pequenas empresas atendidas pela PayFlow. O sinal foi classificado como positivo por reforçar tração, adoção de mercado e potencial de receita recorrente.</p>
+          <p class="signal-text">A Signalinvest conectou essa informação com os dados da Startup Data API e identificou consistência entre crescimento de usuários, menções positivas e abertura de rodada.</p>
+
+          <div class="impact-box">
+            <div class="impact-title">Impacto no score</div>
+            <div class="impact-text">O score da PayFlow aumentou de 86 para 91 após combinação de crescimento mensal, notícia positiva e rodada aberta.</div>
+          </div>
+
+          <div class="chip-row"><span class="chip chip-neutral">PayFlow</span><span class="chip chip-neutral">Fintech</span><span class="chip chip-green">Crescimento</span><span class="chip chip-purple">Score atualizado</span></div>
+        </article>
+
+        <aside>
+          <article class="card signal-side-card">
+            <h2 class="section-title">Resumo do impacto</h2>
+            <div class="score-impact-list">
+              <div class="score-impact-item"><span>Score anterior</span><strong>86</strong></div>
+              <div class="score-impact-item"><span>Novo score</span><strong class="positive">91</strong></div>
+              <div class="score-impact-item"><span>Variação</span><strong class="positive">+5 pontos</strong></div>
+              <div class="score-impact-item"><span>Confiança</span><strong>Alta</strong></div>
+              <div class="score-impact-item"><span>Tipo</span><span class="chip chip-green">Positivo</span></div>
+            </div>
+          </article>
+
+          <article class="card signal-side-card" style="margin-top: 28px;">
+            <h2 class="section-title">Startup relacionada</h2>
+            <div class="related-startup-card">
+              <div class="related-title">PayFlow</div>
+              <div class="related-text">Pagamentos inteligentes para pequenas empresas.</div>
+              <div class="chip-row" style="margin-top: 12px;"><span class="chip chip-green">91/100</span><span class="chip chip-purple">Seed</span></div>
+            </div>
+            <div class="divider"></div>
+            <button class="button button-primary button-full">Ver análise completa</button>
+            <div style="height: 10px"></div>
+            <button class="button button-secondary button-full">Gerar relatório</button>
+          </article>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 29-auditoria-relatorio.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Auditoria do Relatório</title>
+  <link rel="stylesheet" href="style-project-final.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⌕</span>Explorar startups</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">♡</span>Favoritas</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">🔔</span>Notificações</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span>Configurações</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">Transparência</div><div class="sidebar-footer-text">Veja quais dados foram usados para gerar o relatório.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div><h1 class="page-title">Auditoria do relatório</h1><p class="page-subtitle">Confira fontes, critérios e pesos usados na geração do PDF de análise.</p></div>
+        <div class="button-group"><button class="button button-secondary">Voltar ao relatório</button><button class="button button-primary">Baixar auditoria</button></div>
+      </header>
+
+      <section class="audit-layout">
+        <div>
+          <article class="card audit-report-header">
+            <div class="startup-summary-head">
+              <div>
+                <div class="startup-logo">P</div>
+                <div class="startup-summary-title">Relatório — PayFlow</div>
+                <p class="startup-summary-text">Documento gerado em 22/04/2026 com base em fontes conectadas, score, sinais e preferências do investidor.</p>
+                <div class="chip-row"><span class="chip chip-green">Score 91</span><span class="chip chip-purple">PDF completo</span><span class="chip chip-neutral">Versão 2.4</span></div>
+              </div>
+              <span class="chip chip-green">Auditável</span>
+            </div>
+            <div class="audit-summary-grid">
+              <div class="audit-summary-box"><div class="audit-summary-label">Fontes usadas</div><div class="audit-summary-value">5</div></div>
+              <div class="audit-summary-box"><div class="audit-summary-label">Critérios</div><div class="audit-summary-value">5</div></div>
+              <div class="audit-summary-box"><div class="audit-summary-label">Confiança</div><div class="audit-summary-value" style="color: var(--green-growth)">Alta</div></div>
+            </div>
+          </article>
+
+          <article class="card audit-card">
+            <h2 class="section-title">Critérios usados</h2>
+            <p class="section-helper">Cada critério contribui para o score e para a recomendação final.</p>
+            <div class="audit-section-list">
+              <div class="audit-section-item"><div class="audit-icon green">↗</div><div><div class="audit-title">Crescimento mensal</div><div class="audit-text">Usuários ativos, receita estimada e evolução de mercado.</div></div><strong>30%</strong></div>
+              <div class="audit-section-item"><div class="audit-icon yellow">!</div><div><div class="audit-title">Risco estimado</div><div class="audit-text">Risco regulatório, dependência de mercado e dados críticos.</div></div><strong>20%</strong></div>
+              <div class="audit-section-item"><div class="audit-icon purple">●</div><div><div class="audit-title">Rodada e estágio</div><div class="audit-text">Disponibilidade da rodada e maturidade da startup.</div></div><strong>18%</strong></div>
+              <div class="audit-section-item"><div class="audit-icon purple">NW</div><div><div class="audit-title">Notícias e menções</div><div class="audit-text">Volume, qualidade e polaridade das notícias recentes.</div></div><strong>14%</strong></div>
+              <div class="audit-section-item"><div class="audit-icon green">✓</div><div><div class="audit-title">Aderência ao perfil</div><div class="audit-text">Compatibilidade com perfil moderado e faixa de investimento.</div></div><strong>18%</strong></div>
+            </div>
+          </article>
+        </div>
+
+        <aside>
+          <article class="card audit-side-card">
+            <h2 class="section-title">Pesos do score</h2>
+            <p class="section-helper">Distribuição dos critérios aplicados.</p>
+            <div class="audit-weight-list">
+              <div class="audit-weight-row"><span>Crescimento</span><div class="progress-track"><div class="progress-fill" style="width: 30%; background: var(--green-growth)"></div></div><strong>30%</strong></div>
+              <div class="audit-weight-row"><span>Risco</span><div class="progress-track"><div class="progress-fill" style="width: 20%; background: var(--yellow-alert)"></div></div><strong>20%</strong></div>
+              <div class="audit-weight-row"><span>Rodada</span><div class="progress-track"><div class="progress-fill" style="width: 18%; background: var(--purple-primary)"></div></div><strong>18%</strong></div>
+              <div class="audit-weight-row"><span>Notícias</span><div class="progress-track"><div class="progress-fill" style="width: 14%; background: var(--purple-primary)"></div></div><strong>14%</strong></div>
+              <div class="audit-weight-row"><span>Aderência</span><div class="progress-track"><div class="progress-fill" style="width: 18%; background: var(--green-growth)"></div></div><strong>18%</strong></div>
+            </div>
+          </article>
+
+          <article class="card audit-side-card" style="margin-top: 28px;">
+            <h2 class="section-title">Fontes utilizadas</h2>
+            <table class="audit-source-table">
+              <thead><tr><th>Fonte</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Startup Data API</td><td><span class="chip chip-green">OK</span></td></tr>
+                <tr><td>News Monitor</td><td><span class="chip chip-green">OK</span></td></tr>
+                <tr><td>Bases públicas</td><td><span class="chip chip-yellow">Parcial</span></td></tr>
+                <tr><td>Sinais sociais</td><td><span class="chip chip-green">OK</span></td></tr>
+                <tr><td>Regulatory Watch</td><td><span class="chip chip-yellow">Atenção</span></td></tr>
+              </tbody>
+            </table>
+          </article>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

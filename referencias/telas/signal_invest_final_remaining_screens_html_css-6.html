@@ -1,0 +1,874 @@
+<!--
+SIGNALINVEST — TELAS RESTANTES SUGERIDAS HTML + 1 CSS
+
+Telas incluídas:
+20. Confirmação de Relatório Gerado
+21. Login Administrativo
+22. Relatórios do Sistema
+23. Redefinir Nova Senha
+24. Confirmação de Cadastro / Próximo Passo
+
+Como usar:
+1. Crie uma pasta chamada "signalinvest-telas-restantes".
+2. Dentro dela, crie estes 6 arquivos:
+   - style-final.css
+   - 20-confirmacao-relatorio.html
+   - 21-login-admin.html
+   - 22-relatorios-sistema.html
+   - 23-redefinir-senha.html
+   - 24-confirmacao-cadastro.html
+3. Copie cada trecho abaixo para o arquivo correspondente.
+4. Abra cada HTML no navegador.
+-->
+
+<!-- =========================
+ARQUIVO: style-final.css
+========================= -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap');
+
+:root {
+  --purple-primary: #6D28D9;
+  --purple-dark: #4C1D95;
+  --purple-deep: #3B0764;
+  --purple-soft: #F3E8FF;
+  --purple-border: #DDD6FE;
+  --green-growth: #22C55E;
+  --green-dark: #15803D;
+  --green-soft: #F0FDF4;
+  --green-border: #BBF7D0;
+  --yellow-alert: #F59E0B;
+  --yellow-text: #B45309;
+  --yellow-soft: #FFFBEB;
+  --yellow-border: #FDE68A;
+  --red-risk: #DC2626;
+  --red-text: #B91C1C;
+  --red-soft: #FEF2F2;
+  --red-border: #FECACA;
+  --blue-soft: #EFF6FF;
+  --blue-text: #1D4ED8;
+  --background: #F8FAFC;
+  --card: #FFFFFF;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-soft: #94A3B8;
+  --border: #E2E8F0;
+  --input-border: #CBD5E1;
+  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-medium: 0 18px 48px rgba(15, 23, 42, 0.12);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Sora", sans-serif;
+  background: var(--background);
+  color: var(--text-primary);
+}
+
+body { overflow-x: hidden; }
+button, input, select { font-family: inherit; }
+
+.screen {
+  width: 1440px;
+  min-height: 1024px;
+  background: var(--background);
+  margin: 0 auto;
+  position: relative;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+}
+.logo-mark::after {
+  content: "↗";
+  position: absolute;
+  right: -7px;
+  top: -8px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--green-growth);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  border: 3px solid #FFFFFF;
+}
+.logo-mark.light::after { border-color: var(--purple-dark); }
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.logo.light .logo-text { color: #FFFFFF; }
+
+h1, h2, h3, p { margin-top: 0; }
+.page-title {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+}
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.section-helper {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+.small-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 1024px;
+}
+.sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid var(--border);
+  padding: 34px 24px;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-nav {
+  display: grid;
+  gap: 8px;
+  margin-top: 72px;
+}
+.sidebar-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  font-weight: 700;
+  margin: 22px 14px 8px;
+}
+.sidebar-item {
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.sidebar-item.active {
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+}
+.sidebar-icon {
+  width: 22px;
+  text-align: center;
+  color: inherit;
+}
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--background);
+}
+.sidebar-footer-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.sidebar-footer-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.main-area {
+  padding: 48px 80px 64px 60px;
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+.button {
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  padding: 0 18px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.button-primary { height: 48px; background: var(--purple-primary); color: #FFFFFF; }
+.button-secondary { height: 44px; background: #FFFFFF; color: var(--purple-primary); border-color: var(--border); }
+.button-green { height: 44px; background: var(--green-growth); color: #FFFFFF; }
+.button-red { height: 44px; background: var(--red-risk); color: #FFFFFF; }
+.button-full { width: 100%; }
+.button-group { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.form-grid { display: grid; gap: 18px; }
+.form-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.form-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.form-field { display: flex; flex-direction: column; gap: 8px; }
+.form-label { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.input, .select {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--input-border);
+  background: #FFFFFF;
+  padding: 0 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+}
+.input::placeholder { color: var(--text-soft); }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  min-height: 30px;
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.chip-neutral { background: var(--background); color: var(--text-secondary); border-color: var(--border); }
+.chip-purple { background: var(--purple-soft); color: var(--purple-primary); border-color: var(--purple-border); }
+.chip-green { background: var(--green-soft); color: var(--green-dark); border-color: var(--green-border); }
+.chip-yellow { background: var(--yellow-soft); color: var(--yellow-text); border-color: var(--yellow-border); }
+.chip-red { background: var(--red-soft); color: var(--red-text); border-color: var(--red-border); }
+.chip-blue { background: var(--blue-soft); color: var(--blue-text); border-color: #BFDBFE; }
+
+.divider { height: 1px; background: var(--border); margin: 22px 0; }
+.meta-text { color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+.positive { color: var(--green-dark); }
+.warning { color: var(--yellow-text); }
+.danger { color: var(--red-text); }
+
+/* Success / confirmation screens */
+.confirm-screen {
+  min-height: 1024px;
+  display: grid;
+  place-items: center;
+  padding: 64px;
+  background: radial-gradient(circle at 25% 20%, rgba(34,197,94,0.14), transparent 24%),
+              radial-gradient(circle at 80% 70%, rgba(109,40,217,0.12), transparent 28%),
+              var(--background);
+}
+.confirm-shell {
+  width: 1080px;
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+.confirm-visual-card {
+  padding: 36px;
+  border-radius: 28px;
+  background: linear-gradient(145deg, var(--purple-dark), var(--purple-deep));
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+.confirm-visual-card::after {
+  content: "";
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
+  position: absolute;
+  right: -90px;
+  bottom: -90px;
+}
+.confirm-big-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 30px;
+  background: rgba(34,197,94,0.18);
+  color: var(--green-growth);
+  display: grid;
+  place-items: center;
+  font-size: 46px;
+  font-weight: 700;
+  margin-top: 130px;
+}
+.confirm-visual-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-top: 24px;
+}
+.confirm-visual-text {
+  color: #DDD6FE;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-top: 12px;
+}
+.confirm-content-card {
+  padding: 40px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-medium);
+}
+.confirm-content-card h1 {
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
+  margin-bottom: 12px;
+}
+.confirm-content-card p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.confirm-info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 26px; }
+.confirm-info-box {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--background);
+}
+.confirm-info-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 5px; }
+.confirm-info-value { font-size: 13px; font-weight: 700; }
+.next-actions-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  margin-bottom: 26px;
+}
+.next-actions-title { font-size: 14px; font-weight: 700; color: var(--green-dark); margin-bottom: 10px; }
+.next-actions-list { margin: 0; padding-left: 18px; color: var(--green-dark); font-size: 13px; line-height: 1.8; }
+
+/* Admin login */
+.admin-login-screen {
+  min-height: 1024px;
+  display: grid;
+  grid-template-columns: 620px 1fr;
+}
+.admin-login-brand {
+  padding: 56px 64px;
+  color: #FFFFFF;
+  background: radial-gradient(circle at 30% 20%, rgba(34,197,94,0.22), transparent 26%),
+              linear-gradient(145deg, var(--purple-dark), var(--purple-deep));
+  position: relative;
+  overflow: hidden;
+}
+.admin-login-brand::after {
+  content: "";
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 50%;
+  position: absolute;
+  right: -120px;
+  bottom: -120px;
+}
+.admin-login-copy {
+  margin-top: 160px;
+  max-width: 480px;
+}
+.admin-login-copy h1 {
+  font-size: 46px;
+  line-height: 1.16;
+  letter-spacing: -0.06em;
+  margin-bottom: 20px;
+}
+.admin-login-copy p {
+  color: #DDD6FE;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.admin-permission-list { display: grid; gap: 14px; margin-top: 52px; max-width: 480px; }
+.permission-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #DDD6FE;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.permission-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: rgba(34,197,94,0.18);
+  color: var(--green-growth);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.admin-login-area { display: grid; place-items: center; padding: 64px; }
+.admin-login-card {
+  width: 480px;
+  padding: 40px;
+  border-radius: 24px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-medium);
+}
+.admin-login-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+.admin-login-card h2 { font-size: 32px; letter-spacing: -0.04em; margin-bottom: 8px; }
+.admin-login-card > p { color: var(--text-secondary); font-size: 14px; line-height: 1.7; margin-bottom: 30px; }
+.security-note {
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--yellow-soft);
+  border: 1px solid var(--yellow-border);
+  color: var(--yellow-text);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* System reports */
+.reports-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 180px 180px auto;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.report-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.report-stat-card { padding: 18px; }
+.report-stat-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+.report-stat-value { font-size: 26px; font-weight: 700; letter-spacing: -0.04em; }
+.system-report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 28px; }
+.system-report-card {
+  padding: 24px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.system-report-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: var(--purple-soft);
+  color: var(--purple-primary);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+.system-report-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.system-report-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.system-report-meta {
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.meta-row { display: flex; justify-content: space-between; gap: 10px; }
+.system-report-actions { display: flex; gap: 10px; margin-top: auto; }
+.system-report-actions .button { flex: 1; }
+.report-table-card { padding: 24px; }
+.data-table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 16px; }
+.data-table th, .data-table td { border-bottom: 1px solid var(--border); padding: 16px 14px; text-align: left; font-size: 13px; vertical-align: middle; }
+.data-table th { color: var(--text-secondary); font-weight: 600; background: var(--background); }
+.action-buttons { display: flex; gap: 8px; }
+.action-button { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--border); background: #FFFFFF; color: var(--purple-primary); display: grid; place-items: center; }
+
+/* Reset password */
+.reset-screen { min-height: 1024px; display: grid; place-items: center; padding: 64px; }
+.reset-shell { width: 1080px; display: grid; grid-template-columns: 440px 1fr; gap: 28px; }
+.reset-side {
+  padding: 36px;
+  border-radius: 28px;
+  background: linear-gradient(145deg, var(--purple-dark), var(--purple-deep));
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+.reset-side::after { content: ""; position: absolute; right: -90px; bottom: -90px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.12); }
+.reset-side-icon { width: 86px; height: 86px; border-radius: 28px; background: rgba(34,197,94,0.18); color: var(--green-growth); display: grid; place-items: center; font-size: 40px; margin-top: 130px; }
+.reset-side h1 { font-size: 32px; letter-spacing: -0.05em; margin: 24px 0 12px; }
+.reset-side p { color: #DDD6FE; line-height: 1.8; font-size: 14px; }
+.reset-card { padding: 40px; border-radius: 28px; background: #FFFFFF; border: 1px solid var(--border); box-shadow: var(--shadow-medium); }
+.reset-card h2 { font-size: 32px; letter-spacing: -0.04em; margin-bottom: 8px; }
+.reset-card > p { color: var(--text-secondary); font-size: 14px; line-height: 1.7; margin-bottom: 30px; }
+.password-rules { display: grid; gap: 10px; margin: 4px 0 8px; }
+.password-rule { display: flex; gap: 8px; align-items: center; color: var(--green-dark); font-size: 12px; }
+.password-rule::before { content: "✓"; font-weight: 700; }
+.password-strength { display: grid; gap: 8px; margin-top: 4px; }
+.strength-bar { height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.strength-fill { height: 100%; width: 78%; background: var(--green-growth); border-radius: 999px; }
+
+@media print {
+  body { background: #FFFFFF; }
+  .screen { margin: 0; width: 1440px; min-height: 1024px; page-break-after: always; }
+}
+</style>
+
+<!-- =========================
+ARQUIVO: 20-confirmacao-relatorio.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Relatório Gerado</title>
+  <link rel="stylesheet" href="style-final.css" />
+</head>
+<body>
+  <main class="screen confirm-screen">
+    <section class="confirm-shell">
+      <article class="confirm-visual-card">
+        <div class="logo light"><div class="logo-mark light">S</div><div class="logo-text">Signalinvest</div></div>
+        <div class="confirm-big-icon">✓</div>
+        <div class="confirm-visual-title">PDF gerado com sucesso</div>
+        <div class="confirm-visual-text">O relatório consolidado foi criado com as principais informações, score, pontos fortes, riscos e recomendação final.</div>
+      </article>
+
+      <article class="confirm-content-card">
+        <h1>Relatório da PayFlow está pronto</h1>
+        <p>Você pode baixar novamente, compartilhar com outras pessoas ou voltar para a análise da startup.</p>
+
+        <div class="confirm-info-grid">
+          <div class="confirm-info-box"><div class="confirm-info-label">Startup</div><div class="confirm-info-value">PayFlow</div></div>
+          <div class="confirm-info-box"><div class="confirm-info-label">Tipo</div><div class="confirm-info-value">PDF completo</div></div>
+          <div class="confirm-info-box"><div class="confirm-info-label">Gerado em</div><div class="confirm-info-value">22/04/2026 · 09:42</div></div>
+          <div class="confirm-info-box"><div class="confirm-info-label">Score</div><div class="confirm-info-value" style="color: var(--green-growth)">91/100</div></div>
+        </div>
+
+        <div class="next-actions-card">
+          <div class="next-actions-title">Próximas ações recomendadas</div>
+          <ul class="next-actions-list">
+            <li>Baixar o relatório para análise externa.</li>
+            <li>Compartilhar com sócios ou consultores.</li>
+            <li>Comparar a PayFlow com outras startups favoritas.</li>
+          </ul>
+        </div>
+
+        <div class="button-group">
+          <button class="button button-primary">Baixar novamente</button>
+          <button class="button button-secondary">Compartilhar</button>
+          <button class="button button-secondary">Voltar para análise</button>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 21-login-admin.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Login Administrativo</title>
+  <link rel="stylesheet" href="style-final.css" />
+</head>
+<body>
+  <main class="screen admin-login-screen">
+    <section class="admin-login-brand">
+      <div class="logo light"><div class="logo-mark light">S</div><div class="logo-text">Signalinvest</div></div>
+      <div class="admin-login-copy">
+        <h1>Acesso administrativo seguro</h1>
+        <p>Área restrita para acompanhar fontes de dados, usuários, regras de score e integridade das integrações.</p>
+      </div>
+      <div class="admin-permission-list">
+        <div class="permission-item"><div class="permission-icon">✓</div>Monitorar fontes de dados e falhas de API.</div>
+        <div class="permission-item"><div class="permission-icon">✓</div>Atualizar regras e parâmetros do score.</div>
+        <div class="permission-item"><div class="permission-icon">✓</div>Gerenciar usuários e permissões.</div>
+      </div>
+    </section>
+
+    <section class="admin-login-area">
+      <article class="admin-login-card">
+        <div class="admin-login-icon">🔐</div>
+        <h2>Entrar como administrador</h2>
+        <p>Use suas credenciais administrativas para acessar o painel de controle da Signalinvest.</p>
+
+        <form class="form-grid">
+          <div class="form-field"><label class="form-label">E-mail administrativo</label><input class="input" type="email" placeholder="admin@signalinvest.com" /></div>
+          <div class="form-field"><label class="form-label">Senha</label><input class="input" type="password" placeholder="••••••••" /></div>
+          <div class="form-field"><label class="form-label">Código de autenticação</label><input class="input" placeholder="000 000" /></div>
+          <div class="security-note">Por segurança, o acesso administrativo exige autenticação em duas etapas.</div>
+          <button class="button button-primary button-full" type="button">Acessar painel admin</button>
+          <button class="button button-secondary button-full" type="button">Voltar para login comum</button>
+        </form>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 22-relatorios-sistema.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Relatórios do Sistema</title>
+  <link rel="stylesheet" href="style-final.css" />
+</head>
+<body>
+  <main class="screen sidebar-layout">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-text">Signalinvest</div></div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span>Dashboard Admin</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">👥</span>Usuários</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◇</span>Fontes de dados</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span>Regras e parâmetros</a>
+        <a class="sidebar-item" href="#"><span class="sidebar-icon">◷</span>Histórico do score</a>
+        <a class="sidebar-item active" href="#"><span class="sidebar-icon">▤</span>Relatórios</a>
+      </nav>
+      <div class="sidebar-footer"><div class="sidebar-footer-title">Relatórios admin</div><div class="sidebar-footer-text">Acompanhe uso, estabilidade, fontes e desempenho da plataforma.</div></div>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Relatórios do sistema</h1>
+          <p class="page-subtitle">Gere documentos administrativos sobre operação, usuários, integrações e qualidade dos dados.</p>
+        </div>
+        <button class="button button-primary">Novo relatório</button>
+      </header>
+
+      <section class="report-stats-grid">
+        <article class="card report-stat-card"><div class="report-stat-label">Relatórios gerados</div><div class="report-stat-value">128</div></article>
+        <article class="card report-stat-card"><div class="report-stat-label">Este mês</div><div class="report-stat-value" style="color: var(--green-growth)">24</div></article>
+        <article class="card report-stat-card"><div class="report-stat-label">Falhas registradas</div><div class="report-stat-value" style="color: var(--red-risk)">7</div></article>
+        <article class="card report-stat-card"><div class="report-stat-label">Fontes analisadas</div><div class="report-stat-value" style="color: var(--purple-primary)">6</div></article>
+      </section>
+
+      <section class="reports-toolbar">
+        <input class="input" placeholder="Buscar relatório" />
+        <select class="select"><option>Tipo</option><option>Operação</option><option>Usuários</option><option>Dados</option></select>
+        <select class="select"><option>Período</option><option>Últimos 30 dias</option><option>Últimos 90 dias</option></select>
+        <button class="button button-secondary">Filtrar</button>
+      </section>
+
+      <section class="system-report-grid">
+        <article class="card system-report-card">
+          <div class="system-report-icon">OP</div>
+          <div><div class="system-report-title">Relatório operacional</div><div class="system-report-desc">Resumo de usuários ativos, relatórios gerados, alertas e uso da plataforma.</div></div>
+          <div class="system-report-meta"><div class="meta-row"><span>Formato</span><strong>PDF</strong></div><div class="meta-row"><span>Período</span><strong>30 dias</strong></div><div class="meta-row"><span>Status</span><span class="chip chip-green">Pronto</span></div></div>
+          <div class="system-report-actions"><button class="button button-primary">Baixar</button><button class="button button-secondary">Ver</button></div>
+        </article>
+
+        <article class="card system-report-card">
+          <div class="system-report-icon">API</div>
+          <div><div class="system-report-title">Relatório de integrações</div><div class="system-report-desc">Disponibilidade das fontes, falhas, latência e qualidade dos dados coletados.</div></div>
+          <div class="system-report-meta"><div class="meta-row"><span>Formato</span><strong>PDF</strong></div><div class="meta-row"><span>Período</span><strong>7 dias</strong></div><div class="meta-row"><span>Status</span><span class="chip chip-yellow">Atenção</span></div></div>
+          <div class="system-report-actions"><button class="button button-primary">Baixar</button><button class="button button-secondary">Ver</button></div>
+        </article>
+
+        <article class="card system-report-card">
+          <div class="system-report-icon">SC</div>
+          <div><div class="system-report-title">Relatório de scores</div><div class="system-report-desc">Histórico de alterações, principais fatores e startups mais impactadas.</div></div>
+          <div class="system-report-meta"><div class="meta-row"><span>Formato</span><strong>PDF</strong></div><div class="meta-row"><span>Período</span><strong>90 dias</strong></div><div class="meta-row"><span>Status</span><span class="chip chip-green">Pronto</span></div></div>
+          <div class="system-report-actions"><button class="button button-primary">Baixar</button><button class="button button-secondary">Ver</button></div>
+        </article>
+      </section>
+
+      <article class="card report-table-card">
+        <h2 class="section-title">Histórico de relatórios administrativos</h2>
+        <p class="section-helper">Lista dos documentos gerados pelo administrador e pelo sistema.</p>
+        <table class="data-table">
+          <thead><tr><th>Relatório</th><th>Tipo</th><th>Gerado por</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody>
+            <tr><td>Operação mensal</td><td>Operação</td><td>Administrador</td><td>22/04/2026</td><td><span class="chip chip-green">Pronto</span></td><td><div class="action-buttons"><button class="action-button">↓</button><button class="action-button">👁</button></div></td></tr>
+            <tr><td>Falhas de integração</td><td>Dados</td><td>Sistema</td><td>21/04/2026</td><td><span class="chip chip-yellow">Atenção</span></td><td><div class="action-buttons"><button class="action-button">↓</button><button class="action-button">👁</button></div></td></tr>
+            <tr><td>Alterações do score</td><td>Score</td><td>Administrador</td><td>20/04/2026</td><td><span class="chip chip-green">Pronto</span></td><td><div class="action-buttons"><button class="action-button">↓</button><button class="action-button">👁</button></div></td></tr>
+            <tr><td>Usuários ativos</td><td>Usuários</td><td>Sistema</td><td>18/04/2026</td><td><span class="chip chip-green">Pronto</span></td><td><div class="action-buttons"><button class="action-button">↓</button><button class="action-button">👁</button></div></td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 23-redefinir-senha.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Redefinir Senha</title>
+  <link rel="stylesheet" href="style-final.css" />
+</head>
+<body>
+  <main class="screen reset-screen">
+    <section class="reset-shell">
+      <article class="reset-side">
+        <div class="logo light"><div class="logo-mark light">S</div><div class="logo-text">Signalinvest</div></div>
+        <div class="reset-side-icon">🔑</div>
+        <h1>Crie uma nova senha</h1>
+        <p>Escolha uma senha forte para proteger seus dados, relatórios e preferências de investimento.</p>
+      </article>
+
+      <article class="reset-card">
+        <h2>Redefinir senha</h2>
+        <p>Informe a nova senha para recuperar o acesso à sua conta.</p>
+
+        <form class="form-grid">
+          <div class="form-field"><label class="form-label">Nova senha</label><input class="input" type="password" placeholder="••••••••" /></div>
+          <div class="form-field"><label class="form-label">Confirmar nova senha</label><input class="input" type="password" placeholder="••••••••" /></div>
+
+          <div class="password-strength">
+            <div class="small-label">Força da senha</div>
+            <div class="strength-bar"><div class="strength-fill"></div></div>
+            <span class="chip chip-green">Senha forte</span>
+          </div>
+
+          <div class="password-rules">
+            <div class="password-rule">Mínimo de 8 caracteres</div>
+            <div class="password-rule">Contém letras e números</div>
+            <div class="password-rule">Inclui caractere especial</div>
+          </div>
+
+          <button class="button button-primary button-full" type="button">Salvar nova senha</button>
+          <button class="button button-secondary button-full" type="button">Voltar para login</button>
+        </form>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- =========================
+ARQUIVO: 24-confirmacao-cadastro.html
+========================= -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalinvest — Cadastro Confirmado</title>
+  <link rel="stylesheet" href="style-final.css" />
+</head>
+<body>
+  <main class="screen confirm-screen">
+    <section class="confirm-shell">
+      <article class="confirm-visual-card">
+        <div class="logo light"><div class="logo-mark light">S</div><div class="logo-text">Signalinvest</div></div>
+        <div class="confirm-big-icon">✓</div>
+        <div class="confirm-visual-title">Conta criada com sucesso</div>
+        <div class="confirm-visual-text">Agora a Signalinvest precisa entender seu perfil para recomendar startups alinhadas ao seu objetivo.</div>
+      </article>
+
+      <article class="confirm-content-card">
+        <h1>Bem-vindo à Signalinvest, Eduardo</h1>
+        <p>Sua conta foi criada. O próximo passo é definir seu perfil de investidor para personalizar as recomendações.</p>
+
+        <div class="confirm-info-grid">
+          <div class="confirm-info-box"><div class="confirm-info-label">Usuário</div><div class="confirm-info-value">Eduardo Azevedo</div></div>
+          <div class="confirm-info-box"><div class="confirm-info-label">E-mail</div><div class="confirm-info-value">eduardo@email.com</div></div>
+          <div class="confirm-info-box"><div class="confirm-info-label">Status</div><div class="confirm-info-value" style="color: var(--green-growth)">Ativo</div></div>
+          <div class="confirm-info-box"><div class="confirm-info-label">Próxima etapa</div><div class="confirm-info-value">Perfil do investidor</div></div>
+        </div>
+
+        <div class="next-actions-card">
+          <div class="next-actions-title">O que acontece depois?</div>
+          <ul class="next-actions-list">
+            <li>Você escolhe seu perfil de risco.</li>
+            <li>A plataforma ajusta recomendações por setor e faixa de investimento.</li>
+            <li>Você acessa o dashboard com startups recomendadas.</li>
+          </ul>
+        </div>
+
+        <div class="button-group">
+          <button class="button button-primary">Definir perfil agora</button>
+          <button class="button button-secondary">Ir para dashboard</button>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

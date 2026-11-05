@@ -1,0 +1,30 @@
+RESULTADO INFORMADO PELO ALUNO — 13/10/2026 — ORACLE FIAP / RM570621
+Java 17.0.18.8 / IntelliJ IDEA / ojdbc11 23.3.0.23.09
+
+Contas: SELECT retornou 5 registros; 5 novos objetos conferidos:
+ContaBancaria[id=6, idUsuario=1, banco=Banco teste 1, agencia=0001, numero=6, tipo=CORRENTE, saldo=1000.00]
+ContaBancaria[id=7, idUsuario=1, banco=Banco teste 2, agencia=0001, numero=7, tipo=CORRENTE, saldo=1000.00]
+ContaBancaria[id=8, idUsuario=1, banco=Banco teste 3, agencia=0001, numero=8, tipo=CORRENTE, saldo=1000.00]
+ContaBancaria[id=9, idUsuario=1, banco=Banco teste 4, agencia=0001, numero=9, tipo=CORRENTE, saldo=1000.00]
+ContaBancaria[id=10, idUsuario=1, banco=Banco teste 5, agencia=0001, numero=10, tipo=CORRENTE, saldo=1000.00]
+Receitas: SELECT retornou 5 registros; 5 novos objetos conferidos:
+Receita[id=6, idUsuario=1, idConta=6, descricao=Receita JDBC 1, valor=250.00, data=2026-10-01, tipo=SERVICOS]
+Receita[id=7, idUsuario=1, idConta=7, descricao=Receita JDBC 2, valor=500.00, data=2026-10-02, tipo=SERVICOS]
+Receita[id=8, idUsuario=1, idConta=8, descricao=Receita JDBC 3, valor=750.00, data=2026-10-03, tipo=SERVICOS]
+Receita[id=9, idUsuario=1, idConta=9, descricao=Receita JDBC 4, valor=1000.00, data=2026-10-04, tipo=SERVICOS]
+Receita[id=10, idUsuario=1, idConta=10, descricao=Receita JDBC 5, valor=1250.00, data=2026-10-05, tipo=SERVICOS]
+Despesas: SELECT retornou 5 registros; 5 novos objetos conferidos:
+Despesa[id=6, idUsuario=1, idConta=6, descricao=Despesa JDBC 1, valor=50.00, data=2026-10-01, tipo=OPERACIONAL]
+Despesa[id=7, idUsuario=1, idConta=7, descricao=Despesa JDBC 2, valor=100.00, data=2026-10-02, tipo=OPERACIONAL]
+Despesa[id=8, idUsuario=1, idConta=8, descricao=Despesa JDBC 3, valor=150.00, data=2026-10-03, tipo=OPERACIONAL]
+Despesa[id=9, idUsuario=1, idConta=9, descricao=Despesa JDBC 4, valor=200.00, data=2026-10-04, tipo=OPERACIONAL]
+Despesa[id=10, idUsuario=1, idConta=10, descricao=Despesa JDBC 5, valor=250.00, data=2026-10-05, tipo=OPERACIONAL]
+SUCESSO: 5 contas, 5 receitas e 5 despesas verificadas; COMMIT efetuado.
+
+Process finished with exit code 0
+
+Consulta posterior no SQL Developer:
+ENTIDADE      TOTAL
+CONTAS            5
+RECEITAS          5
+DESPESAS          5

@@ -1,0 +1,5 @@
+Java: OpenJDK 17.0.20
+Compilação: javac via módulo jdk.compiler, --release 17 -Xlint:all; sucesso sem avisos.
+Modelos: igualdade dos dados e 3 entradas inválidas verificadas; PASS.
+Teste sem configuração: mensagem FIAP_ORACLE_URL ausente; código de saída 1.
+Oracle FIAP: executado posteriormente pelo aluno; resultado registrado em EVIDENCIAS.md.

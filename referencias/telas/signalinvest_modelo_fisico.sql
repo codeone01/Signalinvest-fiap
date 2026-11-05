@@ -1,0 +1,470 @@
+-- =====================================================================
+-- SIGNALINVEST - Modelo Físico Oracle
+-- Projeto: Plataforma Fintech de Inteligência de Investimentos
+-- Entrega: Fase 3 - FIAP - Análise e Desenvolvimento de Sistemas
+-- =====================================================================
+-- Como importar no Oracle SQL Developer Data Modeler:
+--   1. File -> Import -> DDL File
+--   2. Selecione este arquivo
+--   3. Confirme "Oracle Database 12c" (ou superior)
+--   4. O Modelo Físico (Relational) será gerado automaticamente
+--   5. Depois rode: Design -> Engineer to Logical Model
+--      (gera o Modelo Lógico a partir do Físico)
+-- =====================================================================
+
+
+-- ---------------------------------------------------------------------
+-- 1. TB_USUARIO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_USUARIO (
+  ID_USUARIO      NUMBER(10)     NOT NULL,
+  NM_USUARIO      VARCHAR2(100)  NOT NULL,
+  DS_EMAIL        VARCHAR2(150)  NOT NULL,
+  DS_SENHA_HASH   VARCHAR2(255)  NOT NULL,
+  NR_CPF          VARCHAR2(14)   NOT NULL,
+  NR_TELEFONE     VARCHAR2(20),
+  DT_CADASTRO     TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  ST_USUARIO      VARCHAR2(30)   NOT NULL,
+  TP_USUARIO      VARCHAR2(30)   NOT NULL,
+  CONSTRAINT PK_USUARIO        PRIMARY KEY (ID_USUARIO),
+  CONSTRAINT UK_USUARIO_EMAIL  UNIQUE (DS_EMAIL),
+  CONSTRAINT UK_USUARIO_CPF    UNIQUE (NR_CPF),
+  CONSTRAINT CK_USUARIO_STATUS CHECK (ST_USUARIO IN ('ATIVO','INATIVO','BLOQUEADO','EXCLUIDO')),
+  CONSTRAINT CK_USUARIO_TIPO   CHECK (TP_USUARIO IN ('INVESTIDOR','ADMIN','ANALISTA','SUPORTE'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 2. TB_PERFIL_INVESTIDOR
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_PERFIL_INVESTIDOR (
+  ID_PERFIL               NUMBER(10)    NOT NULL,
+  ID_USUARIO              NUMBER(10)    NOT NULL,
+  TP_PERFIL               VARCHAR2(30)  NOT NULL,
+  DS_NIVEL_EXPERIENCIA    VARCHAR2(30)  NOT NULL,
+  VL_FAIXA_INVESTIMENTO   VARCHAR2(50),
+  DS_OBJETIVO_PRINCIPAL   VARCHAR2(100),
+  PC_TOLERANCIA_RISCO     NUMBER(5,2),
+  DT_ATUALIZACAO          TIMESTAMP     DEFAULT SYSTIMESTAMP NOT NULL,
+  CONSTRAINT PK_PERFIL_INVESTIDOR PRIMARY KEY (ID_PERFIL),
+  CONSTRAINT UK_PERFIL_USUARIO    UNIQUE (ID_USUARIO),
+  CONSTRAINT FK_PERFIL_USUARIO    FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO),
+  CONSTRAINT CK_PERFIL_TIPO       CHECK (TP_PERFIL IN ('CONSERVADOR','MODERADO','ARROJADO'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 3. TB_OBJETIVO_FINANCEIRO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_OBJETIVO_FINANCEIRO (
+  ID_OBJETIVO   NUMBER(10)     NOT NULL,
+  ID_USUARIO    NUMBER(10)     NOT NULL,
+  NM_OBJETIVO   VARCHAR2(100)  NOT NULL,
+  DS_OBJETIVO   VARCHAR2(500),
+  VL_ALVO       NUMBER(12,2)   NOT NULL,
+  VL_ATUAL      NUMBER(12,2)   DEFAULT 0 NOT NULL,
+  DT_INICIO     DATE           NOT NULL,
+  DT_LIMITE     DATE,
+  ST_OBJETIVO   VARCHAR2(30)   NOT NULL,
+  CONSTRAINT PK_OBJETIVO_FINANCEIRO PRIMARY KEY (ID_OBJETIVO),
+  CONSTRAINT FK_OBJETIVO_USUARIO    FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO),
+  CONSTRAINT CK_OBJETIVO_STATUS     CHECK (ST_OBJETIVO IN ('EM_ANDAMENTO','CONCLUIDO','CANCELADO'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 4. TB_SETOR
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_SETOR (
+  ID_SETOR   NUMBER(10)     NOT NULL,
+  NM_SETOR   VARCHAR2(100)  NOT NULL,
+  DS_SETOR   VARCHAR2(500),
+  CONSTRAINT PK_SETOR      PRIMARY KEY (ID_SETOR),
+  CONSTRAINT UK_SETOR_NOME UNIQUE (NM_SETOR)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 5. TB_ATIVO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_ATIVO (
+  ID_ATIVO        NUMBER(10)     NOT NULL,
+  ID_SETOR        NUMBER(10)     NOT NULL,
+  NM_ATIVO        VARCHAR2(150)  NOT NULL,
+  TP_ATIVO        VARCHAR2(30)   NOT NULL,
+  DS_ATIVO        VARCHAR2(500),
+  DS_PAIS_ORIGEM  VARCHAR2(60),
+  ST_ATIVO        VARCHAR2(30)   NOT NULL,
+  DT_CADASTRO     TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  CONSTRAINT PK_ATIVO        PRIMARY KEY (ID_ATIVO),
+  CONSTRAINT FK_ATIVO_SETOR  FOREIGN KEY (ID_SETOR)
+              REFERENCES TB_SETOR (ID_SETOR),
+  CONSTRAINT CK_ATIVO_TIPO   CHECK (TP_ATIVO IN ('STARTUP','ACAO','FII','RENDA_FIXA','CRIPTO','ETF')),
+  CONSTRAINT CK_ATIVO_STATUS CHECK (ST_ATIVO IN ('ATIVO','INATIVO','EM_ANALISE'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 6. TB_STARTUP (especializacao de TB_ATIVO)
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_STARTUP (
+  ID_STARTUP          NUMBER(10)      NOT NULL,
+  ID_ATIVO            NUMBER(10)      NOT NULL,
+  DS_ESTAGIO          VARCHAR2(30)    NOT NULL,
+  NR_ANO_FUNDACAO     NUMBER(4),
+  NM_CIDADE           VARCHAR2(80),
+  NM_ESTADO           VARCHAR2(60),
+  NM_PAIS             VARCHAR2(60),
+  DS_SITE             VARCHAR2(500),
+  DS_MODELO_NEGOCIO   VARCHAR2(1000),
+  CONSTRAINT PK_STARTUP         PRIMARY KEY (ID_STARTUP),
+  CONSTRAINT UK_STARTUP_ATIVO   UNIQUE (ID_ATIVO),
+  CONSTRAINT FK_STARTUP_ATIVO   FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT CK_STARTUP_ESTAGIO CHECK (DS_ESTAGIO IN
+              ('IDEACAO','MVP','SEED','SERIE_A','SERIE_B','GROWTH'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 7. TB_SCORE_ATIVO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_SCORE_ATIVO (
+  ID_SCORE              NUMBER(10)      NOT NULL,
+  ID_ATIVO              NUMBER(10)      NOT NULL,
+  VL_SCORE              NUMBER(5,2)     NOT NULL,
+  VL_RISCO_SCORE        NUMBER(5,2)     NOT NULL,
+  VL_CRESCIMENTO_SCORE  NUMBER(5,2)     NOT NULL,
+  VL_LIQUIDEZ_SCORE     NUMBER(5,2),
+  VL_CONFIANCA_SCORE    NUMBER(5,2)     NOT NULL,
+  DT_CALCULO            TIMESTAMP       DEFAULT SYSTIMESTAMP NOT NULL,
+  DS_JUSTIFICATIVA      VARCHAR2(1000),
+  CONSTRAINT PK_SCORE_ATIVO PRIMARY KEY (ID_SCORE),
+  CONSTRAINT FK_SCORE_ATIVO FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT CK_SCORE_VALOR CHECK (VL_SCORE BETWEEN 0 AND 100)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 8. TB_SINAL_INVESTIMENTO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_SINAL_INVESTIMENTO (
+  ID_SINAL            NUMBER(10)      NOT NULL,
+  ID_ATIVO            NUMBER(10)      NOT NULL,
+  TP_SINAL            VARCHAR2(30)    NOT NULL,
+  VL_GRAU_CONFIANCA   NUMBER(5,2)     NOT NULL,
+  DS_IMPACTO          VARCHAR2(30)    NOT NULL,
+  DS_JUSTIFICATIVA    VARCHAR2(1000),
+  DT_SINAL            TIMESTAMP       DEFAULT SYSTIMESTAMP NOT NULL,
+  ST_SINAL            VARCHAR2(30)    NOT NULL,
+  CONSTRAINT PK_SINAL_INVESTIMENTO PRIMARY KEY (ID_SINAL),
+  CONSTRAINT FK_SINAL_ATIVO        FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT CK_SINAL_TIPO         CHECK (TP_SINAL IN
+              ('COMPRA','VENDA','ATENCAO','OPORTUNIDADE','RISCO_ELEVADO','OBSERVACAO')),
+  CONSTRAINT CK_SINAL_CONFIANCA    CHECK (VL_GRAU_CONFIANCA BETWEEN 0 AND 100),
+  CONSTRAINT CK_SINAL_STATUS       CHECK (ST_SINAL IN ('ATIVO','REVOGADO','EXPIRADO')),
+  CONSTRAINT CK_SINAL_IMPACTO      CHECK (DS_IMPACTO IN ('BAIXO','MEDIO','ALTO'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 9. TB_FONTE_DADOS
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_FONTE_DADOS (
+  ID_FONTE           NUMBER(10)     NOT NULL,
+  NM_FONTE           VARCHAR2(100)  NOT NULL,
+  TP_FONTE           VARCHAR2(30)   NOT NULL,
+  DS_URL_FONTE       VARCHAR2(500),
+  PC_CONFIABILIDADE  NUMBER(5,2),
+  ST_FONTE           VARCHAR2(30)   NOT NULL,
+  CONSTRAINT PK_FONTE_DADOS  PRIMARY KEY (ID_FONTE),
+  CONSTRAINT UK_FONTE_NOME   UNIQUE (NM_FONTE),
+  CONSTRAINT CK_FONTE_TIPO   CHECK (TP_FONTE IN ('API','SITE','BASE_INTERNA','FEED_RSS')),
+  CONSTRAINT CK_FONTE_STATUS CHECK (ST_FONTE IN ('ATIVA','INATIVA'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 10. TB_NOTICIA
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_NOTICIA (
+  ID_NOTICIA          NUMBER(10)     NOT NULL,
+  ID_ATIVO            NUMBER(10),
+  ID_FONTE            NUMBER(10)     NOT NULL,
+  NM_TITULO           VARCHAR2(255)  NOT NULL,
+  DS_RESUMO           CLOB,
+  DS_URL_NOTICIA      VARCHAR2(500),
+  DT_PUBLICACAO       TIMESTAMP      NOT NULL,
+  VL_IMPACTO_SCORE    NUMBER(5,2),
+  CONSTRAINT PK_NOTICIA       PRIMARY KEY (ID_NOTICIA),
+  CONSTRAINT FK_NOTICIA_ATIVO FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT FK_NOTICIA_FONTE FOREIGN KEY (ID_FONTE)
+              REFERENCES TB_FONTE_DADOS (ID_FONTE)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 11. TB_RELATORIO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_RELATORIO (
+  ID_RELATORIO       NUMBER(10)     NOT NULL,
+  ID_USUARIO         NUMBER(10)     NOT NULL,
+  ID_ATIVO           NUMBER(10)     NOT NULL,
+  TP_RELATORIO       VARCHAR2(30)   NOT NULL,
+  NM_TITULO          VARCHAR2(255)  NOT NULL,
+  DS_RESUMO          CLOB,
+  DS_RECOMENDACAO    CLOB,
+  DT_GERACAO         TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  DS_URL_PDF         VARCHAR2(500),
+  CONSTRAINT PK_RELATORIO         PRIMARY KEY (ID_RELATORIO),
+  CONSTRAINT FK_RELATORIO_USUARIO FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO),
+  CONSTRAINT FK_RELATORIO_ATIVO   FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT CK_RELATORIO_TIPO    CHECK (TP_RELATORIO IN ('RESUMIDO','COMPLETO','AUDITORIA'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 12. TB_AUDITORIA_RELATORIO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_AUDITORIA_RELATORIO (
+  ID_AUDITORIA      NUMBER(10)     NOT NULL,
+  ID_RELATORIO      NUMBER(10)     NOT NULL,
+  ID_FONTE          NUMBER(10)     NOT NULL,
+  DS_CRITERIO       VARCHAR2(100)  NOT NULL,
+  PC_PESO           NUMBER(5,2)    NOT NULL,
+  DS_CRITERIO_DET   VARCHAR2(500),
+  DT_AUDITORIA      TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  CONSTRAINT PK_AUDITORIA_RELATORIO PRIMARY KEY (ID_AUDITORIA),
+  CONSTRAINT FK_AUDITORIA_RELATORIO FOREIGN KEY (ID_RELATORIO)
+              REFERENCES TB_RELATORIO (ID_RELATORIO),
+  CONSTRAINT FK_AUDITORIA_FONTE     FOREIGN KEY (ID_FONTE)
+              REFERENCES TB_FONTE_DADOS (ID_FONTE),
+  CONSTRAINT CK_AUDITORIA_PESO      CHECK (PC_PESO BETWEEN 0 AND 100)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 13. TB_ALERTA_USUARIO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_ALERTA_USUARIO (
+  ID_ALERTA      NUMBER(10)     NOT NULL,
+  ID_USUARIO     NUMBER(10)     NOT NULL,
+  ID_ATIVO       NUMBER(10),
+  ID_SINAL       NUMBER(10),
+  TP_ALERTA      VARCHAR2(30)   NOT NULL,
+  DS_MENSAGEM    VARCHAR2(500)  NOT NULL,
+  DT_ENVIO       TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  ST_LEITURA     VARCHAR2(20)   NOT NULL,
+  CONSTRAINT PK_ALERTA_USUARIO PRIMARY KEY (ID_ALERTA),
+  CONSTRAINT FK_ALERTA_USUARIO FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO),
+  CONSTRAINT FK_ALERTA_ATIVO   FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT FK_ALERTA_SINAL   FOREIGN KEY (ID_SINAL)
+              REFERENCES TB_SINAL_INVESTIMENTO (ID_SINAL),
+  CONSTRAINT CK_ALERTA_TIPO    CHECK (TP_ALERTA IN ('SCORE','NOTICIA','SINAL','RELATORIO','RISCO')),
+  CONSTRAINT CK_ALERTA_LEITURA CHECK (ST_LEITURA IN ('LIDO','NAO_LIDO'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 14. TB_FAVORITO (associativa USUARIO x ATIVO)
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_FAVORITO (
+  ID_FAVORITO    NUMBER(10) NOT NULL,
+  ID_USUARIO     NUMBER(10) NOT NULL,
+  ID_ATIVO       NUMBER(10) NOT NULL,
+  DT_FAVORITO    TIMESTAMP  DEFAULT SYSTIMESTAMP NOT NULL,
+  CONSTRAINT PK_FAVORITO               PRIMARY KEY (ID_FAVORITO),
+  CONSTRAINT FK_FAVORITO_USUARIO       FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO),
+  CONSTRAINT FK_FAVORITO_ATIVO         FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT UK_FAVORITO_USUARIO_ATIVO UNIQUE (ID_USUARIO, ID_ATIVO)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 15. TB_COMPARACAO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_COMPARACAO (
+  ID_COMPARACAO    NUMBER(10)     NOT NULL,
+  ID_USUARIO       NUMBER(10)     NOT NULL,
+  NM_COMPARACAO    VARCHAR2(150)  NOT NULL,
+  DT_CRIACAO       TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  DS_OBSERVACAO    VARCHAR2(500),
+  CONSTRAINT PK_COMPARACAO         PRIMARY KEY (ID_COMPARACAO),
+  CONSTRAINT FK_COMPARACAO_USUARIO FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 16. TB_COMPARACAO_ATIVO (associativa COMPARACAO x ATIVO)
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_COMPARACAO_ATIVO (
+  ID_COMPARACAO_ATIVO   NUMBER(10)     NOT NULL,
+  ID_COMPARACAO         NUMBER(10)     NOT NULL,
+  ID_ATIVO              NUMBER(10)     NOT NULL,
+  NR_POSICAO_RANKING    NUMBER(3),
+  DS_OBSERVACAO         VARCHAR2(500),
+  CONSTRAINT PK_COMPARACAO_ATIVO       PRIMARY KEY (ID_COMPARACAO_ATIVO),
+  CONSTRAINT FK_COMPARACAO_ATIVO_COMP  FOREIGN KEY (ID_COMPARACAO)
+              REFERENCES TB_COMPARACAO (ID_COMPARACAO),
+  CONSTRAINT FK_COMPARACAO_ATIVO_ATIVO FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT UK_COMPARACAO_ATIVO       UNIQUE (ID_COMPARACAO, ID_ATIVO)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 17. TB_CARTEIRA
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_CARTEIRA (
+  ID_CARTEIRA    NUMBER(10)     NOT NULL,
+  ID_USUARIO     NUMBER(10)     NOT NULL,
+  NM_CARTEIRA    VARCHAR2(100)  NOT NULL,
+  DS_CARTEIRA    VARCHAR2(500),
+  DT_CRIACAO     TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  ST_CARTEIRA    VARCHAR2(30)   NOT NULL,
+  CONSTRAINT PK_CARTEIRA         PRIMARY KEY (ID_CARTEIRA),
+  CONSTRAINT FK_CARTEIRA_USUARIO FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO),
+  CONSTRAINT CK_CARTEIRA_STATUS  CHECK (ST_CARTEIRA IN ('ATIVA','INATIVA','ARQUIVADA'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 18. TB_POSICAO_CARTEIRA
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_POSICAO_CARTEIRA (
+  ID_POSICAO      NUMBER(10)     NOT NULL,
+  ID_CARTEIRA     NUMBER(10)     NOT NULL,
+  ID_ATIVO        NUMBER(10)     NOT NULL,
+  QT_QUANTIDADE   NUMBER(18,8)   NOT NULL,
+  VL_MEDIO        NUMBER(12,2)   NOT NULL,
+  VL_ATUAL        NUMBER(12,2),
+  DT_ATUALIZACAO  TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  CONSTRAINT PK_POSICAO_CARTEIRA   PRIMARY KEY (ID_POSICAO),
+  CONSTRAINT FK_POSICAO_CARTEIRA   FOREIGN KEY (ID_CARTEIRA)
+              REFERENCES TB_CARTEIRA (ID_CARTEIRA),
+  CONSTRAINT FK_POSICAO_ATIVO      FOREIGN KEY (ID_ATIVO)
+              REFERENCES TB_ATIVO (ID_ATIVO),
+  CONSTRAINT CK_POSICAO_QTD        CHECK (QT_QUANTIDADE >= 0),
+  CONSTRAINT UK_POSICAO_CART_ATIVO UNIQUE (ID_CARTEIRA, ID_ATIVO)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 19. TB_TRANSACAO_CARTEIRA
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_TRANSACAO_CARTEIRA (
+  ID_TRANSACAO    NUMBER(10)     NOT NULL,
+  ID_POSICAO      NUMBER(10)     NOT NULL,
+  TP_TRANSACAO    VARCHAR2(30)   NOT NULL,
+  QT_QUANTIDADE   NUMBER(18,8)   NOT NULL,
+  VL_UNITARIO     NUMBER(12,2)   NOT NULL,
+  VL_TOTAL        NUMBER(14,2)   NOT NULL,
+  DT_TRANSACAO    TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  CONSTRAINT PK_TRANSACAO_CARTEIRA PRIMARY KEY (ID_TRANSACAO),
+  CONSTRAINT FK_TRANSACAO_POSICAO  FOREIGN KEY (ID_POSICAO)
+              REFERENCES TB_POSICAO_CARTEIRA (ID_POSICAO),
+  CONSTRAINT CK_TRANSACAO_TIPO     CHECK (TP_TRANSACAO IN
+              ('COMPRA','VENDA','APORTE','RESGATE','DIVIDENDO')),
+  CONSTRAINT CK_TRANSACAO_QTD      CHECK (QT_QUANTIDADE > 0)
+);
+
+
+-- ---------------------------------------------------------------------
+-- 20. TB_PLANO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_PLANO (
+  ID_PLANO                NUMBER(10)     NOT NULL,
+  NM_PLANO                VARCHAR2(50)   NOT NULL,
+  DS_PLANO                VARCHAR2(500),
+  VL_MENSAL               NUMBER(10,2)   NOT NULL,
+  VL_ANUAL                NUMBER(10,2)   NOT NULL,
+  NR_LIMITE_RELATORIOS    NUMBER(5),
+  NR_LIMITE_ALERTAS       NUMBER(5),
+  ST_PLANO                VARCHAR2(30)   NOT NULL,
+  CONSTRAINT PK_PLANO        PRIMARY KEY (ID_PLANO),
+  CONSTRAINT UK_PLANO_NOME   UNIQUE (NM_PLANO),
+  CONSTRAINT CK_PLANO_VL_M   CHECK (VL_MENSAL >= 0),
+  CONSTRAINT CK_PLANO_VL_A   CHECK (VL_ANUAL >= 0),
+  CONSTRAINT CK_PLANO_STATUS CHECK (ST_PLANO IN ('ATIVO','INATIVO'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 21. TB_ASSINATURA
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_ASSINATURA (
+  ID_ASSINATURA       NUMBER(10)     NOT NULL,
+  ID_USUARIO          NUMBER(10)     NOT NULL,
+  ID_PLANO            NUMBER(10)     NOT NULL,
+  DT_INICIO           DATE           NOT NULL,
+  DT_FIM              DATE,
+  ST_ASSINATURA       VARCHAR2(30)   NOT NULL,
+  TP_CICLO_COBRANCA   VARCHAR2(20)   NOT NULL,
+  CONSTRAINT PK_ASSINATURA          PRIMARY KEY (ID_ASSINATURA),
+  CONSTRAINT FK_ASSINATURA_USUARIO  FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO),
+  CONSTRAINT FK_ASSINATURA_PLANO    FOREIGN KEY (ID_PLANO)
+              REFERENCES TB_PLANO (ID_PLANO),
+  CONSTRAINT CK_ASSINATURA_STATUS   CHECK (ST_ASSINATURA IN
+              ('ATIVA','CANCELADA','EXPIRADA','SUSPENSA')),
+  CONSTRAINT CK_ASSINATURA_CICLO    CHECK (TP_CICLO_COBRANCA IN ('MENSAL','ANUAL'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 22. TB_PAGAMENTO
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_PAGAMENTO (
+  ID_PAGAMENTO           NUMBER(10)     NOT NULL,
+  ID_ASSINATURA          NUMBER(10)     NOT NULL,
+  VL_PAGAMENTO           NUMBER(10,2)   NOT NULL,
+  TP_METODO_PAGAMENTO    VARCHAR2(30)   NOT NULL,
+  ST_PAGAMENTO           VARCHAR2(30)   NOT NULL,
+  DT_PAGAMENTO           TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  NR_CODIGO_TRANSACAO    VARCHAR2(100)  NOT NULL,
+  CONSTRAINT PK_PAGAMENTO            PRIMARY KEY (ID_PAGAMENTO),
+  CONSTRAINT FK_PAGAMENTO_ASSINATURA FOREIGN KEY (ID_ASSINATURA)
+              REFERENCES TB_ASSINATURA (ID_ASSINATURA),
+  CONSTRAINT UK_PAGAMENTO_CODIGO     UNIQUE (NR_CODIGO_TRANSACAO),
+  CONSTRAINT CK_PAGAMENTO_METODO     CHECK (TP_METODO_PAGAMENTO IN
+              ('CARTAO','BOLETO','PIX','TRANSFERENCIA')),
+  CONSTRAINT CK_PAGAMENTO_STATUS     CHECK (ST_PAGAMENTO IN
+              ('APROVADO','RECUSADO','PENDENTE','ESTORNADO'))
+);
+
+
+-- ---------------------------------------------------------------------
+-- 23. TB_LOG_AUDITORIA
+-- ---------------------------------------------------------------------
+CREATE TABLE TB_LOG_AUDITORIA (
+  ID_LOG                 NUMBER(10)     NOT NULL,
+  ID_USUARIO             NUMBER(10),
+  DS_ACAO                VARCHAR2(100)  NOT NULL,
+  NM_ENTIDADE_AFETADA    VARCHAR2(80),
+  ID_REGISTRO_AFETADO    NUMBER(10),
+  DT_LOG                 TIMESTAMP      DEFAULT SYSTIMESTAMP NOT NULL,
+  DS_IP_ORIGEM           VARCHAR2(45),
+  DS_LOG                 VARCHAR2(500),
+  CONSTRAINT PK_LOG_AUDITORIA PRIMARY KEY (ID_LOG),
+  CONSTRAINT FK_LOG_USUARIO   FOREIGN KEY (ID_USUARIO)
+              REFERENCES TB_USUARIO (ID_USUARIO)
+);
+
+
+-- =====================================================================
+-- FIM DO SCRIPT - SIGNALINVEST
+-- 23 tabelas / PKs / FKs / UKs / CHECKs / NOT NULLs
+-- =====================================================================
