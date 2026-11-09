@@ -4,11 +4,18 @@ import { useAuth } from '../auth/AuthContext'
 import { Marca } from './Marca'
 
 const itens = [
-  { destino: '/', rotulo: 'Início', icone: '⌂' },
-  { destino: '/contas', rotulo: 'Contas', icone: '▣' },
-  { destino: '/receitas', rotulo: 'Receitas', icone: '↗' },
-  { destino: '/despesas', rotulo: 'Despesas', icone: '↘' },
+  { destino: '/', rotulo: 'Início', icone: 'inicio' },
+  { destino: '/contas', rotulo: 'Contas', icone: 'contas' },
+  { destino: '/receitas', rotulo: 'Receitas', icone: 'receitas' },
+  { destino: '/despesas', rotulo: 'Despesas', icone: 'despesas' },
 ]
+
+function Icone({ nome }: { nome: string }) {
+  if (nome === 'inicio') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 10 8-6 8 6v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /></svg>
+  if (nome === 'contas') return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M3.5 9h17M7 14h3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
+  if (nome === 'receitas') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17 17.5 4.5M10 4.5h7.5V12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 7 12.5 12.5M12 19.5h5.5V14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+}
 
 export function Layout() {
   const { usuario, sair } = useAuth()
@@ -25,12 +32,14 @@ export function Layout() {
       <button className="menu-mobile" type="button" onClick={() => setMenuAberto(!menuAberto)}
         aria-expanded={menuAberto} aria-label="Abrir navegação">☰</button>
       <aside className={`sidebar ${menuAberto ? 'sidebar-aberta' : ''}`}>
-        <Marca />
+        <NavLink className="marca-link" to="/" aria-label="Ir para o início" onClick={() => setMenuAberto(false)}>
+          <Marca />
+        </NavLink>
         <nav aria-label="Navegação principal">
           {itens.map((item) => (
             <NavLink key={item.destino} to={item.destino} end={item.destino === '/'}
               onClick={() => setMenuAberto(false)}>
-              <span aria-hidden="true">{item.icone}</span>{item.rotulo}
+              <span className="icone-navegacao"><Icone nome={item.icone} /></span>{item.rotulo}
             </NavLink>
           ))}
         </nav>

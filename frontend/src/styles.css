@@ -28,6 +28,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .marca { width: 190px; height: 58px; object-fit: contain; object-position: left center; }
 .marca-clara { filter: brightness(0) invert(1); }
 .login-apresentacao .marca { width: min(360px, 100%); height: 92px; object-fit: cover; object-position: center; }
+.sidebar .marca, .login-marca-mobile .marca { width: 210px; height: 68px; object-fit: cover; object-position: center; }
 .cartao { background: #fff; border: 1px solid var(--borda); border-radius: 20px; box-shadow: var(--sombra); }
 .botao { border: 0; border-radius: 12px; padding: 12px 18px; font-weight: 700; text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: .2s ease; }
 .botao:hover { transform: translateY(-1px); }
@@ -59,9 +60,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .app-shell { min-height: 100vh; }
 .sidebar { width: 254px; position: fixed; inset: 0 auto 0 0; background: white; border-right: 1px solid var(--borda); padding: 28px 22px; display: flex; flex-direction: column; z-index: 20; }
+.marca-link { display: block; width: fit-content; line-height: 0; border-radius: 10px; }
+.marca-link:hover { opacity: .82; }
 .sidebar nav { display: grid; gap: 7px; margin-top: 44px; }
 .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; text-decoration: none; color: var(--texto-secundario); font-weight: 600; font-size: 14px; }
-.sidebar nav a span { width: 24px; text-align: center; font-size: 18px; }
+.sidebar nav a .icone-navegacao { width: 24px; height: 24px; display: grid; place-items: center; }
+.icone-navegacao svg { width: 19px; height: 19px; display: block; }
 .sidebar nav a:hover, .sidebar nav a.active { color: var(--roxo); background: var(--roxo-suave); }
 .sidebar-usuario { margin-top: auto; display: grid; gap: 7px; border-top: 1px solid var(--borda); padding-top: 20px; overflow: hidden; }
 .sidebar-usuario strong, .sidebar-usuario span { overflow: hidden; text-overflow: ellipsis; }

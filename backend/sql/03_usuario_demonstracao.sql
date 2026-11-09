@@ -2,7 +2,8 @@
 -- Repara somente o usuário demonstrativo e preserva os demais usuários.
 
 UPDATE TB_USUARIO
-SET DS_SENHA_HASH = 'pbkdf2_sha256$210000$FxgqNaXRFu2/y8bl05+PUg==$s1iPfApDbq7qBVqD5J1C/377FVmz+K8DNbM59REr5Ok=',
+SET NM_USUARIO = UNISTR('\0055\0073\0075\00E1\0072\0069\006F Demonstrativo Signalinvest'),
+    DS_SENHA_HASH = 'pbkdf2_sha256$210000$FxgqNaXRFu2/y8bl05+PUg==$s1iPfApDbq7qBVqD5J1C/377FVmz+K8DNbM59REr5Ok=',
     ST_USUARIO = 'ATIVO'
 WHERE LOWER(DS_EMAIL) = 'demo@signalinvest.example';
 
@@ -11,7 +12,7 @@ INSERT INTO TB_USUARIO (
     NR_TELEFONE, DT_CADASTRO, ST_USUARIO, TP_USUARIO
 )
 SELECT NOVO_ID,
-       'Usuário Demonstrativo Signalinvest',
+       UNISTR('\0055\0073\0075\00E1\0072\0069\006F Demonstrativo Signalinvest'),
        'demo@signalinvest.example',
        'pbkdf2_sha256$210000$FxgqNaXRFu2/y8bl05+PUg==$s1iPfApDbq7qBVqD5J1C/377FVmz+K8DNbM59REr5Ok=',
        '900' || LPAD(TO_CHAR(NOVO_ID), 8, '0'),
