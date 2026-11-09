@@ -53,7 +53,7 @@ Guarde a saída para confirmar que existem `TB_USUARIO`, `TB_CONTA_BANCARIA`, `T
 4. Somente se as colunas de ID não forem `IDENTITY` e as sequences estiverem ausentes, execute `02_criar_sequences_se_necessario.sql`. O script começa cada sequence em `MAX(ID) + 1` e não altera sequences existentes.
 5. Execute `03_usuario_demonstracao.sql` e `04_verificacao.sql`.
 
-Nenhum script contém `DROP` ou limpeza de dados. O script do usuário só insere quando o e-mail demonstrativo ainda não existe.
+Nenhum script contém `DROP` ou limpeza de dados. O script do usuário atualiza somente o hash e o status do e-mail demonstrativo, ou insere esse usuário quando ele ainda não existe.
 
 ## 2. Usuário demonstrativo da aplicação
 
