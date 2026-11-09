@@ -5,6 +5,8 @@ frontend/dist/
 frontend/vite.config.js
 frontend/vite.config.d.ts
 *.log
+.env.local
+backend/.env.local
 .idea/
 .vscode/
 .DS_Store

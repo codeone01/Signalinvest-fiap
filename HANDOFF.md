@@ -68,6 +68,8 @@ Para SID, use o formato fornecido pela FIAP, por exemplo:
 jdbc:oracle:thin:@HOST:PORTA:SID
 ```
 
+Como alternativa, copie `backend/.env.local.example` para `backend/.env.local`, preencha os valores Oracle somente localmente e execute `./start-backend.ps1`. O arquivo local é ignorado pelo Git.
+
 Inicie:
 
 ```powershell

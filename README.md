@@ -87,6 +87,8 @@ mvn spring-boot:run
 
 Para uma URL com SID, use o formato oficial fornecido pela FIAP, como `jdbc:oracle:thin:@HOST:PORTA:SID`. Não grave os valores reais em `application.properties` ou no ZIP.
 
+Como alternativa, copie `backend/.env.local.example` para `backend/.env.local`, preencha os valores Oracle somente localmente e inicie com `./start-backend.ps1`. O arquivo `.env.local` é ignorado pelo Git e nunca é enviado ao frontend.
+
 O backend inicia em `http://localhost:8080`. A sessão expira após 30 minutos. Em ambiente HTTPS, defina também `SESSION_COOKIE_SECURE=true`.
 
 ## 4. Executar o frontend
